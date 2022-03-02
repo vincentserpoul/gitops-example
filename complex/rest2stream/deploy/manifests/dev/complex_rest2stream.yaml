@@ -44,7 +44,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: dev
-        image: registry4streampg.localhost:56789/rest2stream:rest2stream-v0.0.8
+        image: registry4streampg.localhost:56789/rest2stream:rest2stream-v0.0.1
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
