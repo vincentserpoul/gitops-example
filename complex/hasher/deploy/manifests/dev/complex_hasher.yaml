@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app: hasher
+  name: complex
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    linkerd.io/inject: enabled
+  labels:
+    app: hasher
+  name: hasher
+  namespace: complex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hasher
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: hasher
+        namespace: complex
+    spec:
+      containers:
+      - env:
+        - name: APP_ENVIRONMENT
+          value: dev
+        image: registry4streampg.localhost:56789/hasher:hasher-v0.0.2
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 3
+          periodSeconds: 10
+        name: hasher
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            cpu: "2"
+            memory: 128Mi
+          requests:
+            cpu: 250m
+            memory: 16Mi
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  labels:
+    app: hasher
+  name: wordstream-hasher
+  namespace: complex
+spec:
+  ackPolicy: explicit
+  ackWait: "1000"
+  deliverPolicy: all
+  durableName: wordstream-hasher
+  filterSubject: WORDS.submitted
+  maxDeliver: 20
+  streamName: WORDS

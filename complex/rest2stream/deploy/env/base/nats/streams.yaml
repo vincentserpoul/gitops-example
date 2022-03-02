@@ -1,0 +1,11 @@
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Stream
+metadata:
+  name: wordstream
+  namespace: PROJECT_NAME
+spec:
+  name: WORDS
+  subjects: ["WORDS.*"]
+  storage: file
+  replicas: 3
