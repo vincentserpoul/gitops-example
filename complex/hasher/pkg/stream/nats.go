@@ -14,16 +14,6 @@ import (
 
 const PublishAsyncMaxPending = 256
 
-type HashedWordMsg struct {
-	SpanContext trace.SpanContext `json:"span_context"`
-	HashedWord  []byte            `json:"hashed_word"`
-}
-
-type WordMsg struct {
-	SpanContext trace.SpanContext `json:"span_context"`
-	Word        string            `json:"word"`
-}
-
 // 	don't forget to defer nc.Close()
 func JetstreamConnect(url string, insecureSkipVerify bool) (*nats.Conn, nats.JetStreamContext, error) {
 	var opts []nats.Option
