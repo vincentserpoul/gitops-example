@@ -31,7 +31,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: dev
-        image: registry4streampg.localhost:56789/hasher:hasher-v0.0.2
+        image: registry4streampg.localhost:56789/hasher:hasher-v0.0.1
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
