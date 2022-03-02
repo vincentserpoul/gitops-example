@@ -1,4 +1,4 @@
-package main
+package word
 
 import (
 	"encoding/json"
@@ -10,12 +10,7 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-type WordMsg struct {
-	SpanContext trace.SpanContext `json:"span_context"`
-	Word        string            `json:"word"`
-}
-
-func WordSubmissionHandler(js nats.JetStreamContext, trcr trace.Tracer) http.HandlerFunc {
+func SubmissionHandler(js nats.JetStreamContext, trcr trace.Tracer) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 

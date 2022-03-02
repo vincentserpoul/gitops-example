@@ -7,28 +7,15 @@ import (
 	"net/http"
 	"os"
 
+	"rest2stream/pkg/configuration"
+	"rest2stream/pkg/observability"
+	"rest2stream/pkg/stream"
+	"rest2stream/pkg/word"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/riandyrn/otelchi"
 	"go.opentelemetry.io/otel"
 )
-
-type Config struct {
-	Application struct {
-		Port int
-	}
-	Observability struct {
-		Collector struct {
-			Host string
-			Port int
-		}
-	}
-	Stream struct {
-		Protocol           string
-		Host               string
-		Port               int
-		InsecureSkipVerify bool
-	}
-}
 
 func main() {
 	// configuration
@@ -37,9 +24,9 @@ func main() {
 		currEnv = e
 	}
 
-	cfg, err := getConfig(currEnv)
+	cfg, err := configuration.GetConfig(currEnv)
 	if err != nil {
-		if errors.Is(err, missingBaseConfigError{}) {
+		if errors.Is(err, configuration.MissingBaseConfigError{}) {
 			log.Printf("getConfig: %v", err)
 
 			return
@@ -49,8 +36,8 @@ func main() {
 	}
 
 	// observability
-	shutdown, err := InitProvider(
-		"complex-rest2stream",
+	shutdown, err := observability.InitProvider(
+		"complex-hasher",
 		fmt.Sprintf(
 			"%s:%d",
 			cfg.Observability.Collector.Host,
@@ -72,7 +59,7 @@ func main() {
 	}()
 
 	// initialize tracer
-	trcr := otel.Tracer("gochi")
+	trcr := otel.Tracer("rest2stream")
 
 	natsURL := fmt.Sprintf(
 		"%s://%s:%d",
@@ -81,7 +68,7 @@ func main() {
 		cfg.Stream.Port,
 	)
 
-	nc, js, err := JetstreamConnect(natsURL, cfg.Stream.InsecureSkipVerify)
+	nc, js, err := stream.JetstreamConnect(natsURL, cfg.Stream.InsecureSkipVerify)
 	if err != nil {
 		log.Printf("nats: %v", err)
 
@@ -92,7 +79,7 @@ func main() {
 	// router
 	r := chi.NewRouter()
 	r.Use(otelchi.Middleware("chi", otelchi.WithChiRoutes(r)))
-	r.Post("/word", WordSubmissionHandler(js, trcr))
+	r.Post("/word", word.SubmissionHandler(js, trcr))
 	r.Get("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNoContent)
 	})

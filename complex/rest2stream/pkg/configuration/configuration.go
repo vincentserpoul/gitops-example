@@ -1,4 +1,4 @@
-package main
+package configuration
 
 import (
 	"fmt"
@@ -6,30 +6,30 @@ import (
 	"github.com/ilyakaznacheev/cleanenv"
 )
 
-type missingEnvConfigError struct {
+type MissingEnvConfigError struct {
 	env string
 }
 
-func (mece missingEnvConfigError) Error() string {
+func (mece MissingEnvConfigError) Error() string {
 	return fmt.Sprintf("missing config %s", mece.env)
 }
 
-type missingBaseConfigError struct{}
+type MissingBaseConfigError struct{}
 
-func (mbce missingBaseConfigError) Error() string {
+func (mbce MissingBaseConfigError) Error() string {
 	return "missing base config"
 }
 
-func getConfig(currEnv string) (*Config, error) {
+func GetConfig(currEnv string) (*Config, error) {
 	// config
 	var cfg Config
 
 	if err := cleanenv.ReadConfig("./config/base.yaml", &cfg); err != nil {
-		return nil, missingBaseConfigError{}
+		return nil, MissingBaseConfigError{}
 	}
 
 	if err := cleanenv.ReadConfig(fmt.Sprintf("./config/%s.yaml", currEnv), &cfg); err != nil {
-		return &cfg, missingEnvConfigError{env: currEnv}
+		return &cfg, MissingEnvConfigError{env: currEnv}
 	}
 
 	return &cfg, nil
