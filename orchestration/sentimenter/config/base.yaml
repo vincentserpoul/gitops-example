@@ -1,0 +1,6 @@
+application:
+  port: 3000
+observability:
+  collector:
+    host: "127.0.0.1"
+    port: 4317

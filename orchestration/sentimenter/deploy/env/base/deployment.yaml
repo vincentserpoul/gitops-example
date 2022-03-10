@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: APP_NAME
+  labels:
+    app: APP_NAME
+  namespace: PROJECT_NAME
+  annotations:
+    linkerd.io/inject: enabled
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: APP_NAME
+  template:
+    metadata:
+      labels:
+        app: APP_NAME
+        namespace: PROJECT_NAME
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:
+        - name: APP_NAME
+          image: CONTAINER_REGISTRY_URLAPP_NAME:APP_VERSION
+          ports:
+            - containerPort: APP_PORT
+          env:
+            - name: APP_ENVIRONMENT
+              value: "VAR_APP_ENV"
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "2"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: APP_PORT
+            initialDelaySeconds: 3
+            periodSeconds: 10
