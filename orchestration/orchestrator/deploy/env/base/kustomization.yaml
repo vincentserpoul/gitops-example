@@ -11,4 +11,3 @@ resources:
   - service.yaml
   - namespace.yaml
   - ingress.yaml
-  - nats/streams.yaml
