@@ -8,9 +8,9 @@ export default function () {
   const environment = `${__ENV.APP_ENVIRONMENT}`;
 
 
-  var url = "http://localhost:3001/";
+  var url = "http://localhost:3001/v1";
   if(environment == "dev"){
-    url = "https://sentimenter.orchestration.dev:8443/";
+    url = "https://sentimenter.orchestration.dev/v1";
   }
 
   var params = {};
