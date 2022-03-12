@@ -73,7 +73,9 @@ func main() {
 		return
 	}
 
-	r.Post("/", analyze.Handler(analyzer))
+	version := "v1"
+
+	r.Post(fmt.Sprintf("/%s", version), analyze.Handler(analyzer))
 
 	// serve router
 	fmt.Printf("Listening on port %d\n", cfg.Application.Port)
