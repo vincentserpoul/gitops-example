@@ -1,0 +1,12 @@
+application:
+  port: 3000
+catfact:
+  url: "https://cat-fact.herokuapp.com/facts"
+  timeout: "2s"
+sentimenter:
+  url: "http://sentimenter/v1"
+  timeout: "250ms"  
+observability:
+  collector:
+    host: "127.0.0.1"
+    port: 4317
