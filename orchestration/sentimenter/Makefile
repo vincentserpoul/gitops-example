@@ -17,6 +17,7 @@ test:
 build: docker-build
 
 docker-build:
+	docker pull gcr.io/distroless/static && \
 	docker build -t $(APP_NAME) ./
 
 #######
