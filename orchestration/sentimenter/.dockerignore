@@ -1,0 +1,10 @@
+.dockerignore
+target/
+deploy/
+Dockerfile
+benchmarks/
+Makefile
+profiling.sh
+.golangci.toml
+deploy/
+cliff.toml
