@@ -29,6 +29,7 @@ func Handler(
 				errsS[i] = e.Error()
 			}
 
+			w.WriteHeader(http.StatusInternalServerError)
 			log.Printf("catfact issue: %v", strings.Join(errsS, " - "))
 
 			return
