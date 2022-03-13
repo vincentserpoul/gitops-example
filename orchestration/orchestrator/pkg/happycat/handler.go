@@ -5,19 +5,15 @@ import (
 	"net/http"
 	"strings"
 	"time"
-
-	"go.opentelemetry.io/otel/trace"
 )
 
 func Handler(
-	trcr trace.Tracer,
 	timeoutCatFacts, timeoutSentimenter time.Duration,
 	catFactsURL, sentimenterURL string,
 ) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cf, errs := get1HappyCatFact(
 			r.Context(),
-			trcr,
 			timeoutCatFacts,
 			timeoutSentimenter,
 			catFactsURL,

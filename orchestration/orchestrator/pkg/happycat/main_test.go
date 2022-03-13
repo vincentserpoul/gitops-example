@@ -28,16 +28,12 @@ func testServer(
 ) *httptest.Server {
 	t.Helper()
 
-	if timeoutFreq == 0 {
-		timeoutFreq = 1
-	}
-
 	handler := func() func(http.ResponseWriter, *http.Request) {
 		count := 0
 
 		return func(w http.ResponseWriter, r *http.Request) {
 			count++
-			if count%timeoutFreq == 0 && timeout != 0 {
+			if timeoutFreq != 0 && count%timeoutFreq == 0 {
 				time.Sleep(timeout * 2)
 			}
 

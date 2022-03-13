@@ -5,22 +5,14 @@ import (
 	"errors"
 	"reflect"
 	"testing"
-	"time"
-
-	"go.opentelemetry.io/otel/trace"
 )
 
 func Test_getCatFacts(t *testing.T) {
 	t.Parallel()
 
-	type args struct {
-		timeout time.Duration
-	}
-
 	tests := []struct {
 		name           string
 		serverResponse string
-		args           args
 		want           CatFacts
 		errIs          error
 	}{
@@ -62,9 +54,6 @@ func Test_getCatFacts(t *testing.T) {
 					"used": true
 				}
 			]`,
-			args: args{
-				timeout: 0,
-			},
 			want: CatFacts{
 				"Cats make about 100 different sounds. Dogs make only about 10.",
 				"Domestic cats spend about 70 percent of the day sleeping and 15 percent of the day grooming.",
@@ -79,12 +68,10 @@ func Test_getCatFacts(t *testing.T) {
 			t.Parallel()
 			ctx := context.Background()
 
-			trcr := trace.NewNoopTracerProvider().Tracer("test")
-
-			s := testServer(t, tt.serverResponse, tt.args.timeout, 1)
+			s := testServer(t, tt.serverResponse, 0, 1)
 			defer s.Close()
 
-			got, err := getCatFacts(ctx, trcr, tt.args.timeout, s.URL)
+			got, err := getCatFacts(ctx, s.URL)
 			if !errors.Is(tt.errIs, err) {
 				t.Errorf("getCatFacts() error = %v, wantErr %v", err, tt.errIs)
 

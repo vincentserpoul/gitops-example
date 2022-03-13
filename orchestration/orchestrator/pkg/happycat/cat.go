@@ -6,10 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"time"
 
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
-	"go.opentelemetry.io/otel/trace"
 )
 
 type CatFacts []string
@@ -18,24 +16,9 @@ var ErrAPICatFact = errors.New("api cat facts error")
 
 func getCatFacts(
 	ctx context.Context,
-	trcr trace.Tracer,
-	timeout time.Duration,
 	url string,
 ) (CatFacts, error) {
-	client := http.Client{
-		Transport: otelhttp.NewTransport(http.DefaultTransport),
-		Timeout:   timeout,
-	}
-
-	ctx, span := trcr.Start(ctx, "req cat fact")
-	defer span.End()
-
-	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %w", err)
-	}
-
-	res, err := client.Do(req)
+	res, err := otelhttp.Get(ctx, url)
 	if err != nil {
 		return nil, fmt.Errorf("error requesting: %w", err)
 	}

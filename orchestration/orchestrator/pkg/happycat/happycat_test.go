@@ -4,24 +4,17 @@ import (
 	"context"
 	"testing"
 	"time"
-
-	"go.opentelemetry.io/otel/trace"
 )
 
 func Test_get1HappyCatFact(t *testing.T) {
 	t.Parallel()
 
-	type args struct {
-		timeoutCatFacts    time.Duration
-		timeoutSentimenter time.Duration
-	}
-
 	tests := []struct {
 		name                        string
 		catFactServerResponse       string
 		sentimenterServerResponse   string
+		timeoutCatFactFrequency     int
 		timeoutSentimenterFrequency int
-		args                        args
 		want1                       bool
 		errsLen                     int
 	}{
@@ -47,7 +40,7 @@ func Test_get1HappyCatFact(t *testing.T) {
 			errsLen:                   0,
 		},
 		{
-			name: "timeout",
+			name: "all timeout cat facts",
 			catFactServerResponse: `
 			[
 				{
@@ -64,14 +57,12 @@ func Test_get1HappyCatFact(t *testing.T) {
 				}
 			]`,
 			sentimenterServerResponse: `6`,
-			args: args{
-				timeoutCatFacts: 10 * time.Millisecond,
-			},
-			want1:   false,
-			errsLen: 1,
+			timeoutCatFactFrequency:   1,
+			want1:                     false,
+			errsLen:                   1,
 		},
 		{
-			name: "timeout",
+			name: "all timeout sentimenter",
 			catFactServerResponse: `
 			[
 				{
@@ -87,12 +78,10 @@ func Test_get1HappyCatFact(t *testing.T) {
 					"text": "Domestic cats spend about 70 percent of the day sleeping and 15 percent of the day grooming."
 				}
 			]`,
-			sentimenterServerResponse: `6`,
-			args: args{
-				timeoutSentimenter: 10 * time.Millisecond,
-			},
-			want1:   false,
-			errsLen: 4,
+			sentimenterServerResponse:   `6`,
+			timeoutSentimenterFrequency: 1,
+			want1:                       false,
+			errsLen:                     4,
 		},
 		{
 			name: "1 timeout in neutral answers",
@@ -111,10 +100,7 @@ func Test_get1HappyCatFact(t *testing.T) {
 					"text": "Domestic cats spend about 70 percent of the day sleeping and 15 percent of the day grooming."
 				}
 			]`,
-			sentimenterServerResponse: `0`,
-			args: args{
-				timeoutSentimenter: 10 * time.Millisecond,
-			},
+			sentimenterServerResponse:   `0`,
 			timeoutSentimenterFrequency: 4,
 			want1:                       false,
 			errsLen:                     4,
@@ -136,15 +122,15 @@ func Test_get1HappyCatFact(t *testing.T) {
 					"text": "Domestic cats spend about 70 percent of the day sleeping and 15 percent of the day grooming."
 				}
 			]`,
-			sentimenterServerResponse: `1`,
-			args: args{
-				timeoutSentimenter: 10 * time.Millisecond,
-			},
+			sentimenterServerResponse:   `1`,
 			timeoutSentimenterFrequency: 4,
 			want1:                       true,
 			errsLen:                     0,
 		},
 	}
+
+	timeoutCatFacts := 10 * time.Millisecond
+	timeoutSentimenter := 10 * time.Millisecond
 
 	for _, tt := range tests {
 		tt := tt
@@ -152,18 +138,14 @@ func Test_get1HappyCatFact(t *testing.T) {
 			t.Parallel()
 			ctx := context.Background()
 
-			trcr := trace.NewNoopTracerProvider().Tracer("test")
-
-			sCF := testServer(t, tt.catFactServerResponse, tt.args.timeoutCatFacts, 1)
+			sCF := testServer(t, tt.catFactServerResponse, timeoutCatFacts, tt.timeoutCatFactFrequency)
 			defer sCF.Close()
-			sS := testServer(t, tt.sentimenterServerResponse, tt.args.timeoutSentimenter, tt.timeoutSentimenterFrequency)
+			sS := testServer(t, tt.sentimenterServerResponse, timeoutSentimenter, tt.timeoutSentimenterFrequency)
 			defer sS.Close()
 
-			got, errs := get1HappyCatFact(ctx, trcr, tt.args.timeoutCatFacts, tt.args.timeoutSentimenter, sCF.URL, sS.URL)
+			got, errs := get1HappyCatFact(ctx, timeoutCatFacts, timeoutSentimenter, sCF.URL, sS.URL)
 			if got != "" && tt.errsLen != len(errs) {
 				t.Errorf("Get1HappyCatFact() error = %v, want %d errors", errs, tt.errsLen)
-
-				return
 			}
 
 			if tt.want1 && got == "" {

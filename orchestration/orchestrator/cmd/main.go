@@ -13,7 +13,6 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/riandyrn/otelchi"
-	"go.opentelemetry.io/otel"
 )
 
 func main() {
@@ -57,9 +56,6 @@ func main() {
 		}
 	}()
 
-	// initialize tracer
-	trcr := otel.Tracer("orchestrator")
-
 	// router
 	r := chi.NewRouter()
 	r.Use(otelchi.Middleware("chi", otelchi.WithChiRoutes(r)))
@@ -71,7 +67,6 @@ func main() {
 	version := "v1"
 
 	r.Get(fmt.Sprintf("/%s/happycat", version), happycat.Handler(
-		trcr,
 		cfg.CatFact.Timeout, cfg.Sentimenter.Timeout,
 		cfg.CatFact.URL, cfg.Sentimenter.URL,
 	))
