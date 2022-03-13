@@ -22,7 +22,7 @@ bench-compare:
 #########
 
 build: docker-build 
-	@echo "\n tag your build with - git tag $(APP_NAME)-vX.X.X"
+	@echo "tag your build with - git tag $(APP_NAME)-vX.X.X"
 
 docker-build:
 	docker pull gcr.io/distroless/static && \
