@@ -1,6 +1,7 @@
 package happycat
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -11,7 +12,12 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	goleak.VerifyTestMain(m)
+	leak := flag.Bool("leak", false, "use leak detector")
+	flag.Parse()
+
+	if *leak {
+		goleak.VerifyTestMain(m)
+	}
 }
 
 func testServer(

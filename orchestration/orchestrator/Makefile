@@ -8,7 +8,8 @@ APP_NAME?=orchestrator
 ########
 
 test:
-	go test ./..
+	go test ./pkg/... -race && \
+	go test ./pkg/... -leak
 
 bench:
 	
