@@ -34,3 +34,12 @@ docker-build:
 
 sec-scan:
 	trivy fs ./
+
+############
+# upgrades #
+############
+
+upgrade:
+	go mod tidy && \
+	go get -t -u ./... && \
+	go mod tidy
