@@ -14,7 +14,14 @@ func TestMain(m *testing.M) {
 	goleak.VerifyTestMain(m)
 }
 
-func testServer(serverResponse string, timeout time.Duration, timeoutFreq int) *httptest.Server {
+func testServer(
+	t *testing.T,
+	serverResponse string,
+	timeout time.Duration,
+	timeoutFreq int,
+) *httptest.Server {
+	t.Helper()
+
 	if timeoutFreq == 0 {
 		timeoutFreq = 1
 	}

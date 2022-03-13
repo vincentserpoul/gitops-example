@@ -44,7 +44,7 @@ func Test_getSentiment(t *testing.T) {
 
 			trcr := trace.NewNoopTracerProvider().Tracer("test")
 			ctx := context.Background()
-			s := testServer(tt.serverResponse, tt.args.timeout, 1)
+			s := testServer(t, tt.serverResponse, tt.args.timeout, 1)
 			defer s.Close()
 
 			got, err := getSentiment(ctx, trcr, tt.args.timeout, s.URL, tt.args.textToAnalyze)

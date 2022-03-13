@@ -81,7 +81,7 @@ func Test_getCatFacts(t *testing.T) {
 
 			trcr := trace.NewNoopTracerProvider().Tracer("test")
 
-			s := testServer(tt.serverResponse, tt.args.timeout, 1)
+			s := testServer(t, tt.serverResponse, tt.args.timeout, 1)
 			defer s.Close()
 
 			got, err := getCatFacts(ctx, trcr, tt.args.timeout, s.URL)

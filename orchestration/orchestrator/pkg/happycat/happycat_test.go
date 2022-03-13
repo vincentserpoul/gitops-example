@@ -154,9 +154,9 @@ func Test_get1HappyCatFact(t *testing.T) {
 
 			trcr := trace.NewNoopTracerProvider().Tracer("test")
 
-			sCF := testServer(tt.catFactServerResponse, tt.args.timeoutCatFacts, 1)
+			sCF := testServer(t, tt.catFactServerResponse, tt.args.timeoutCatFacts, 1)
 			defer sCF.Close()
-			sS := testServer(tt.sentimenterServerResponse, tt.args.timeoutSentimenter, tt.timeoutSentimenterFrequency)
+			sS := testServer(t, tt.sentimenterServerResponse, tt.args.timeoutSentimenter, tt.timeoutSentimenterFrequency)
 			defer sS.Close()
 
 			got, errs := get1HappyCatFact(ctx, trcr, tt.args.timeoutCatFacts, tt.args.timeoutSentimenter, sCF.URL, sS.URL)
