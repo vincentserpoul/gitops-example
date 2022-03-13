@@ -4,7 +4,7 @@ catfact:
   url: "https://cat-fact.herokuapp.com/facts"
   timeout: "2s"
 sentimenter:
-  url: "http://sentimenter.orchestration/v1"
+  url: "http://sentimenter:3000/v1"
   timeout: "250ms"  
 observability:
   collector:
