@@ -44,7 +44,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: dev
-        image: registry4gitops.localhost:56789/orchestrator:orchestrator-v1.0.1
+        image: registry4gitops.localhost:56789/orchestrator:orchestrator-v1.0.2
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
