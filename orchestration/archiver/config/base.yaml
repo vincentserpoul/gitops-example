@@ -1,0 +1,21 @@
+application:
+  port: 3000
+databases:
+  read:
+    host: "127.0.0.1"
+    port: 5432
+    username: "archiver_read"
+    password: "yourpass"
+    databasename: "archiver"
+    sslmode: "disable"
+  write:
+    host: "127.0.0.1"
+    port: 5432
+    username: "archiver_write"
+    password: "yourpass"
+    databasename: "archiver"
+    sslmode: "disable"
+observability:
+  collector:
+    host: "127.0.0.1"
+    port: 4317
