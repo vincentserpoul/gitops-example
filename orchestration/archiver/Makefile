@@ -21,7 +21,7 @@ bench-compare:
 # build #
 #########
 
-build: test docker-build 
+build: lint test docker-build 
 	@echo "tag your build with - git tag $(APP_NAME)-vX.X.X"
 
 docker-build:
