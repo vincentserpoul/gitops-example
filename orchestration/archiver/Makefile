@@ -35,6 +35,13 @@ docker-build:
 lint:
 	golangci-lint run ./...
 
+#############
+# changelog #
+#############
+
+changelog-gen:
+	git cliff -c ./cliff.toml -o ./CHANGELOG.md --include-path "**/archiver/*" --repository ../../
+
 #######
 # sec #
 #######
