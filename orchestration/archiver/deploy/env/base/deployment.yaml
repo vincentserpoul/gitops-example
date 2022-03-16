@@ -20,6 +20,13 @@ spec:
       annotations:
         linkerd.io/inject: enabled
     spec:
+      initContainers:
+        - name: wait-for-APP_NAME-migrations
+          image: groundnuty/k8s-wait-for:v1.5.1
+          args:
+            - "job"
+            - "APP_NAME-APP_VERSION-migrations"
+            - "-n PROJECT_NAME"    
       containers:
         - name: APP_NAME
           image: CONTAINER_REGISTRY_URLAPP_NAME:APP_VERSION
@@ -41,3 +48,26 @@ spec:
               port: APP_PORT
             initialDelaySeconds: 3
             periodSeconds: 10
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: job-reader
+  namespace: PROJECT_NAME
+rules:
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: job-reader
+  namespace: PROJECT_NAME
+subjects:
+  - kind: ServiceAccount
+    name: default
+roleRef:
+  kind: Role
+  name: job-reader
+  apiGroup: rbac.authorization.k8s.io
