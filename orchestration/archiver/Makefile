@@ -1,4 +1,4 @@
-.PHONY: test bench bench-compare build docker-build upgrade sec-scan db-init
+.PHONY: test bench bench-compare build docker-build lint changelog-gen  sec-scan upgrade db-init sql-gen
 
 PROJECT_NAME?=orchestration
 APP_NAME?=archiver
