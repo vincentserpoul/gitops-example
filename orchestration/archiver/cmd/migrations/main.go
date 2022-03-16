@@ -24,7 +24,7 @@ func main() {
 	cfg, err := configuration.GetConfig(currEnv)
 	if err != nil {
 		if errors.Is(err, configuration.MissingBaseConfigError{}) {
-			log.Printf("getConfig: %v", err)
+			log.Fatalf("getConfig: %v", err)
 
 			return
 		}
@@ -41,30 +41,22 @@ func main() {
 		),
 	)
 	if err != nil {
-		log.Printf("db connection: %v", err)
-
-		return
+		log.Fatalf("db connection: %v", err)
 	}
 
 	driver, err := postgres.WithInstance(db, &postgres.Config{})
 	if err != nil {
-		log.Printf("db driver: %v", err)
-
-		return
+		log.Fatalf("db driver: %v", err)
 	}
 
 	m, err := migrate.NewWithDatabaseInstance(
 		"file://./sql/migrations",
 		"postgres", driver)
 	if err != nil {
-		log.Printf("migration: %v", err)
-
-		return
+		log.Fatalf("migration: %v", err)
 	}
 
 	if err := m.Up(); err != nil {
-		log.Printf("up: %v", err)
-
-		return
+		log.Fatalf("up: %v", err)
 	}
 }
