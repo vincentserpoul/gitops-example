@@ -26,9 +26,11 @@ FROM gcr.io/distroless/static AS final
 
 USER nonroot:nonroot
 
-COPY --chown=nonroot:nonroot ./config /config/
- 
+COPY --chown=nonroot:nonroot ./sql/migrations /sql/migrations
+
 COPY --from=build --chown=nonroot:nonroot /migrations /migrations
+
+COPY --chown=nonroot:nonroot ./config /config/
 
 COPY --from=build --chown=nonroot:nonroot /app /app
 
