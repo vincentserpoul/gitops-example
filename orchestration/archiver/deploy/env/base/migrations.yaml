@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: APP_NAME-APP_VERSION-migrations
+  labels:
+    app: APP_NAME-migrations
+  namespace: PROJECT_NAME
+spec:
+  template:
+    spec:
+      containers:
+        - name: APP_NAME-migrations
+          image: CONTAINER_REGISTRY_URLAPP_NAME:APP_VERSION
+          command: ["/migrations"]
+          env:
+            - name: APP_ENVIRONMENT
+              value: "VAR_APP_ENV"
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "2"
+      restartPolicy: Never
+  # can't be used, as if there is a restart of the main pod, it won't find the migration
+  # ttlSecondsAfterFinished: 3600
+  backoffLimit: 1

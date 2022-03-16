@@ -15,7 +15,11 @@ COPY ./ ./
 
 RUN CGO_ENABLED=0 go build \
     -installsuffix 'static' \
-    -o /app ./cmd/*.go
+    -o /app ./cmd/serve/*.go
+
+RUN CGO_ENABLED=0 go build \
+    -installsuffix 'static' \
+    -o /migrations ./cmd/migrations/*.go
 
 # Final
 FROM gcr.io/distroless/static AS final
@@ -24,7 +28,8 @@ USER nonroot:nonroot
 
 COPY --chown=nonroot:nonroot ./config /config/
  
-COPY --from=build --chown=nonroot:nonroot /app /app
+COPY --from=build --chown=nonroot:nonroot /migrations /migrations
 
+COPY --from=build --chown=nonroot:nonroot /app /app
 
 ENTRYPOINT ["/app"]
