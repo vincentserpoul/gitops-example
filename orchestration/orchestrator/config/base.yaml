@@ -8,7 +8,7 @@ sentimenter:
   baseurl: "http://sentimenter:3000/v1"
   timeout: "250ms"  
 archiver:
-  base_url: "http://archiver:3000/v1"
+  baseurl: "http://archiver:3000/v1"
   timeout: "250ms"   
 observability:
   collector:
