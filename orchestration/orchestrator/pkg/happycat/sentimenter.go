@@ -4,12 +4,16 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"strconv"
 
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 )
+
+var ErrAPISentiment = errors.New("error API sentiment")
 
 func getSentiment(
 	ctx context.Context,
@@ -21,12 +25,21 @@ func getSentiment(
 		return 0, fmt.Errorf("error mashalling text: %s - %w", textToAnalyze, err)
 	}
 
-	res, err := otelhttp.Post(ctx, baseURL+"/", "application/json", bytes.NewReader(body))
+	url := baseURL
+
+	res, err := otelhttp.Post(ctx, url, "application/json", bytes.NewReader(body))
 	if err != nil {
 		return 0, fmt.Errorf("error requesting: %w", err)
 	}
 
 	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return 0, fmt.Errorf(
+			"url %s status %d: %w",
+			url, res.StatusCode, ErrAPISentiment,
+		)
+	}
 
 	scoreS, err := ioutil.ReadAll(res.Body)
 	if err != nil {
