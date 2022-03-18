@@ -14,8 +14,15 @@ spec:
     - hosts:
         - APP_DOMAIN
       secretName: APP_TLS_SECRET
-  defaultBackend:
-    service:
-      name: APP_NAME
-      port:
-        number: APP_PORT                 
+  rules:
+    - host: APP_DOMAIN
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: APP_NAME
+              port:
+                number: APP_PORT           
+               
