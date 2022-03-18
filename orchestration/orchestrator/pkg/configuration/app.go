@@ -4,13 +4,18 @@ import "time"
 
 type Config struct {
 	Application struct {
-		Port int
+		Port         int
+		LogPresetDev bool
 	}
 	CatFact struct {
 		URL     string
 		Timeout time.Duration
 	}
 	Sentimenter struct {
+		URL     string
+		Timeout time.Duration
+	}
+	Archiver struct {
 		URL     string
 		Timeout time.Duration
 	}

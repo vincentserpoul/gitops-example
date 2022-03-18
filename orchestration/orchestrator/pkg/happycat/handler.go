@@ -1,15 +1,17 @@
 package happycat
 
 import (
-	"log"
 	"net/http"
 	"strings"
 	"time"
+
+	"go.uber.org/zap"
 )
 
 func Handler(
-	timeoutCatFacts, timeoutSentimenter time.Duration,
-	catFactsURL, sentimenterURL string,
+	sugar *zap.SugaredLogger,
+	timeoutCatFacts, timeoutSentimenter, timeoutArchiver time.Duration,
+	catFactsURL, sentimenterURL, archiverURL string,
 ) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cf, errs := get1HappyCatFact(
@@ -26,13 +28,21 @@ func Handler(
 			}
 
 			w.WriteHeader(http.StatusInternalServerError)
-			log.Printf("catfact issue: %v", strings.Join(errsS, " - "))
+			sugar.Errorf("catfact issue: %v", strings.Join(errsS, " - "))
+
+			return
+		}
+
+		if err := saveHappycatFact(r.Context(), timeoutArchiver, archiverURL, cf); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+
+			sugar.Errorf("archiver issue: %v", err)
 
 			return
 		}
 
 		if _, err := w.Write(([]byte)(cf)); err != nil {
-			log.Printf("error not written: %v", err)
+			sugar.Errorf("error not written: %v", err)
 		}
 	})
 }

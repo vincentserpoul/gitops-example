@@ -24,7 +24,7 @@ func get1HappyCatFact(
 	if err != nil {
 		dl, _ := ctxCat.Deadline()
 		fmt.Printf("%s %s", time.Now(), dl)
-		fmt.Println(err)
+
 		return "", []error{fmt.Errorf("%w", err)}
 	}
 

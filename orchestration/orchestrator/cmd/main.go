@@ -13,6 +13,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/riandyrn/otelchi"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -32,6 +33,22 @@ func main() {
 
 		log.Printf("getConfig: %v", err)
 	}
+
+	// logging
+	var logger *zap.Logger
+	if cfg.Application.LogPresetDev {
+		logger, _ = zap.NewDevelopment()
+	} else {
+		logger, _ = zap.NewProduction()
+	}
+
+	defer func() {
+		if err := logger.Sync(); err != nil {
+			log.Printf("logger sync: %v", err)
+		}
+	}()
+
+	sugar := logger.Sugar()
 
 	// observability
 	shutdown, err := observability.InitProvider(
@@ -67,8 +84,9 @@ func main() {
 	version := "v1"
 
 	r.Get(fmt.Sprintf("/%s/happycat", version), happycat.Handler(
-		cfg.CatFact.Timeout, cfg.Sentimenter.Timeout,
-		cfg.CatFact.URL, cfg.Sentimenter.URL,
+		sugar,
+		cfg.CatFact.Timeout, cfg.Sentimenter.Timeout, cfg.Archiver.Timeout,
+		cfg.CatFact.URL, cfg.Sentimenter.URL, cfg.Archiver.URL,
 	))
 
 	// serve router

@@ -1,11 +1,15 @@
 application:
   port: 3000
+  logpresetdev: false
 catfact:
   url: "https://cat-fact.herokuapp.com/facts"
   timeout: "2s"
 sentimenter:
   url: "http://sentimenter:3000/v1"
   timeout: "250ms"  
+sentimenter:
+  url: "http://archiver:3000/v1"
+  timeout: "250ms"   
 observability:
   collector:
     host: "127.0.0.1"
