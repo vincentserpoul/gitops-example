@@ -44,7 +44,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: dev
-        image: registry4gitops.localhost:56789/orchestrator:orchestrator-v1.0.8
+        image: registry4gitops.localhost:56789/orchestrator:orchestrator-v1.0.11
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -78,11 +78,17 @@ metadata:
   name: orchestrator
   namespace: orchestration
 spec:
-  defaultBackend:
-    service:
-      name: orchestrator
-      port:
-        number: 3000
+  rules:
+  - host: orchestrator.orchestration.dev
+    http:
+      paths:
+      - backend:
+          service:
+            name: orchestrator
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
   tls:
   - hosts:
     - orchestrator.orchestration.dev
