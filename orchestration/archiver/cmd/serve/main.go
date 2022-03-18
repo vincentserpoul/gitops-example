@@ -20,16 +20,6 @@ import (
 )
 
 func main() { // nolint:cyclop
-	// logging
-	logger, _ := zap.NewProduction()
-	defer func() {
-		if err := logger.Sync(); err != nil {
-			log.Printf("logger sync: %v", err)
-		}
-	}()
-
-	sugar := logger.Sugar()
-
 	// configuration
 	currEnv := "local"
 	if e := os.Getenv("APP_ENVIRONMENT"); e != "" {
@@ -39,11 +29,29 @@ func main() { // nolint:cyclop
 	cfg, err := configuration.GetConfig(currEnv)
 	if err != nil {
 		if errors.Is(err, configuration.MissingBaseConfigError{}) {
-			sugar.Fatalf("getConfig: %v", err)
+			log.Printf("getConfig: %v", err)
+
+			return
 		}
 
-		sugar.Warnf("getConfig: %v", err)
+		log.Printf("getConfig: %v", err)
 	}
+
+	// logging
+	var logger *zap.Logger
+	if cfg.Application.LogPresetDev {
+		logger, _ = zap.NewDevelopment()
+	} else {
+		logger, _ = zap.NewProduction()
+	}
+
+	defer func() {
+		if err := logger.Sync(); err != nil {
+			log.Printf("logger sync: %v", err)
+		}
+	}()
+
+	sugar := logger.Sugar()
 
 	// observability
 	shutdown, err := observability.InitProvider(
@@ -55,7 +63,9 @@ func main() { // nolint:cyclop
 		),
 	)
 	if err != nil {
-		sugar.Fatalf("init provider: %v", err)
+		sugar.Errorf("init provider: %v", err)
+
+		return
 	}
 
 	defer func() {

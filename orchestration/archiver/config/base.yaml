@@ -1,5 +1,6 @@
 application:
   port: 3000
+  logpresetdev: false  
 databases:
   read:
     host: "127.0.0.1"
