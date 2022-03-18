@@ -12,11 +12,11 @@ type Config struct {
 		Timeout time.Duration
 	}
 	Sentimenter struct {
-		URL     string
+		BaseURL string
 		Timeout time.Duration
 	}
 	Archiver struct {
-		URL     string
+		BaseURL string
 		Timeout time.Duration
 	}
 	Observability struct {

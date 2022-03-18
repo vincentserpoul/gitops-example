@@ -11,7 +11,7 @@ import (
 func Handler(
 	sugar *zap.SugaredLogger,
 	timeoutCatFacts, timeoutSentimenter, timeoutArchiver time.Duration,
-	catFactsURL, sentimenterURL, archiverURL string,
+	catFactsURL, sentimenterBaseURL, archiverBaseURL string,
 ) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cf, errs := get1HappyCatFact(
@@ -19,7 +19,7 @@ func Handler(
 			timeoutCatFacts,
 			timeoutSentimenter,
 			catFactsURL,
-			sentimenterURL,
+			sentimenterBaseURL,
 		)
 		if cf == "" && len(errs) > 0 {
 			errsS := make([]string, len(errs))
@@ -33,7 +33,7 @@ func Handler(
 			return
 		}
 
-		if err := saveHappycatFact(r.Context(), timeoutArchiver, archiverURL, cf); err != nil {
+		if err := saveHappycatFact(r.Context(), timeoutArchiver, archiverBaseURL, cf); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 
 			sugar.Errorf("archiver issue: %v", err)

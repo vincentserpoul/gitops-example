@@ -19,7 +19,7 @@ var ErrAPIArchiver = errors.New("api archiver error")
 func saveHappycatFact(
 	ctx context.Context,
 	timeoutArchiver time.Duration,
-	url string,
+	baseURL string,
 	fact string,
 ) error {
 	body, err := json.Marshal(struct {
@@ -36,7 +36,7 @@ func saveHappycatFact(
 	ctxArchiver, cancel := context.WithTimeout(ctx, timeoutArchiver)
 	defer cancel()
 
-	res, err := otelhttp.Post(ctxArchiver, url, "application/json", bytes.NewReader(body))
+	res, err := otelhttp.Post(ctxArchiver, baseURL+"/happycatfact", "application/json", bytes.NewReader(body))
 	if err != nil {
 		return fmt.Errorf("error requesting: %w", err)
 	}

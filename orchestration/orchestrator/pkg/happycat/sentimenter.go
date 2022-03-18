@@ -13,7 +13,7 @@ import (
 
 func getSentiment(
 	ctx context.Context,
-	url string,
+	baseURL string,
 	textToAnalyze string,
 ) (int, error) {
 	body, err := json.Marshal(struct{ Text string }{Text: textToAnalyze})
@@ -21,7 +21,7 @@ func getSentiment(
 		return 0, fmt.Errorf("error mashalling text: %s - %w", textToAnalyze, err)
 	}
 
-	res, err := otelhttp.Post(ctx, url, "application/json", bytes.NewReader(body))
+	res, err := otelhttp.Post(ctx, baseURL+"/", "application/json", bytes.NewReader(body))
 	if err != nil {
 		return 0, fmt.Errorf("error requesting: %w", err)
 	}

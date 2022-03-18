@@ -5,10 +5,10 @@ catfact:
   url: "https://cat-fact.herokuapp.com/facts"
   timeout: "2s"
 sentimenter:
-  url: "http://sentimenter:3000/v1"
+  base_url: "http://sentimenter:3000/v1"
   timeout: "250ms"  
 archiver:
-  url: "http://archiver:3000/v1"
+  base_url: "http://archiver:3000/v1"
   timeout: "250ms"   
 observability:
   collector:

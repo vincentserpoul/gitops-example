@@ -15,16 +15,13 @@ const MinPositiveScore = 1
 func get1HappyCatFact( //nolint: cyclop
 	ctx context.Context,
 	timeoutCatFacts, timeoutSentimenter time.Duration,
-	catFactsURL, sentiumURL string,
+	catFactsURL, sentimenterBaseURL string,
 ) (string, []error) {
-	ctxCat, cancelCatFact := context.WithDeadline(ctx, time.Now().Add(timeoutCatFacts))
+	ctxCat, cancelCatFact := context.WithTimeout(ctx, timeoutCatFacts)
 	defer cancelCatFact()
 
 	cfs, err := getCatFacts(ctxCat, catFactsURL)
 	if err != nil {
-		dl, _ := ctxCat.Deadline()
-		fmt.Printf("%s %s", time.Now(), dl)
-
 		return "", []error{fmt.Errorf("%w", err)}
 	}
 
@@ -46,7 +43,7 @@ func get1HappyCatFact( //nolint: cyclop
 			go func() {
 				defer wg.Done()
 
-				sentiment, err := getSentiment(ctxSentiment, sentiumURL, cf)
+				sentiment, err := getSentiment(ctxSentiment, sentimenterBaseURL, cf)
 				if err != nil {
 					errorsC <- fmt.Errorf("wg %d: %w", i, err)
 

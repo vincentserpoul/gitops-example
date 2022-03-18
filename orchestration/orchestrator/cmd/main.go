@@ -85,7 +85,7 @@ func main() {
 	r.Get(fmt.Sprintf("/%s/happycat", version), happycat.Handler(
 		sugar,
 		cfg.CatFact.Timeout, cfg.Sentimenter.Timeout, cfg.Archiver.Timeout,
-		cfg.CatFact.URL, cfg.Sentimenter.URL, cfg.Archiver.URL,
+		cfg.CatFact.URL, cfg.Sentimenter.BaseURL, cfg.Archiver.BaseURL,
 	))
 
 	// serve router
