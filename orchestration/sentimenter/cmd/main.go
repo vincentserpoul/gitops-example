@@ -13,6 +13,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/riandyrn/otelchi"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -33,6 +34,22 @@ func main() {
 		log.Printf("getConfig: %v", err)
 	}
 
+	// logging
+	var logger *zap.Logger
+	if cfg.Application.LogPresetDev {
+		logger, _ = zap.NewDevelopment()
+	} else {
+		logger, _ = zap.NewProduction()
+	}
+
+	defer func() {
+		if err := logger.Sync(); err != nil {
+			log.Printf("logger sync: %v", err)
+		}
+	}()
+
+	sugar := logger.Sugar()
+
 	// observability
 	shutdown, err := observability.InitProvider(
 		"orchestration-sentimenter",
@@ -43,14 +60,14 @@ func main() {
 		),
 	)
 	if err != nil {
-		log.Printf("init provider: %v", err)
+		sugar.Warnf("init provider: %v", err)
 
 		return
 	}
 
 	defer func() {
 		if err := shutdown(); err != nil {
-			log.Printf("shutdown: %v", err)
+			sugar.Warnf("shutdown: %v", err)
 
 			return
 		}
@@ -68,7 +85,7 @@ func main() {
 
 	analyzer, err := analyze.AnalyzeFunc()
 	if err != nil {
-		log.Printf("init sentiment analyzer: %v", err)
+		sugar.Warnf("init sentiment analyzer: %v", err)
 
 		return
 	}
@@ -80,5 +97,7 @@ func main() {
 	// serve router
 	fmt.Printf("Listening on port %d\n", cfg.Application.Port)
 
-	_ = http.ListenAndServe(fmt.Sprintf(":%d", cfg.Application.Port), r)
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Application.Port), r); err != nil {
+		sugar.Warnf("err %v", err)
+	}
 }

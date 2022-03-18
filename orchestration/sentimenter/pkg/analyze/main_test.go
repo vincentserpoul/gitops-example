@@ -1,11 +1,17 @@
 package analyze
 
 import (
+	"flag"
 	"testing"
 
 	"go.uber.org/goleak"
 )
 
 func TestMain(m *testing.M) {
-	goleak.VerifyTestMain(m)
+	leak := flag.Bool("leak", false, "use leak detector")
+	flag.Parse()
+
+	if *leak {
+		goleak.VerifyTestMain(m)
+	}
 }

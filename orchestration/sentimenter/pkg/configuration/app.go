@@ -2,7 +2,8 @@ package configuration
 
 type Config struct {
 	Application struct {
-		Port int
+		Port         int
+		LogPresetDev bool
 	}
 	Observability struct {
 		Collector struct {
