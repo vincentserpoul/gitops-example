@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -34,11 +35,12 @@ func testServer(
 	t.Helper()
 
 	handler := func() func(http.ResponseWriter, *http.Request) {
-		count := 0
+		count := int64(0)
 
 		return func(w http.ResponseWriter, r *http.Request) {
-			count++
-			if timeoutFreq != 0 && count%timeoutFreq == 0 {
+			localCount := atomic.AddInt64(&count, 1)
+
+			if timeoutFreq != 0 && localCount%int64(timeoutFreq) == 0 {
 				time.Sleep(timeout * 2)
 			}
 
