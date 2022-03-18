@@ -5,11 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
-
 	"orchestrator/pkg/configuration"
 	"orchestrator/pkg/happycat"
 	"orchestrator/pkg/observability"
+	"os"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/riandyrn/otelchi"
