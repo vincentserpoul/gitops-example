@@ -6,7 +6,7 @@ import (
 	"github.com/cdipaolo/sentiment"
 )
 
-func AnalyzeFunc() (func(string) uint8, error) {
+func Analyze() (func(string) uint8, error) {
 	model, err := sentiment.Restore()
 	if err != nil {
 		return nil, fmt.Errorf("could not restore model: %w", err)

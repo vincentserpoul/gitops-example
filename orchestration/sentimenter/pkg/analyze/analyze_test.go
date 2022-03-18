@@ -21,7 +21,7 @@ func TestAnalyzeFunc(t *testing.T) {
 		},
 	}
 
-	analy, err := AnalyzeFunc()
+	analy, err := Analyze()
 	if err != nil {
 		t.Errorf("analyze() error = %v", err)
 
