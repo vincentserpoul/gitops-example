@@ -94,7 +94,7 @@ func main() {
 	r.Post(fmt.Sprintf("/%s", version), analyze.Handler(analyzer))
 
 	// serve router
-	fmt.Printf("Listening on port %d\n", cfg.Application.Port)
+	sugar.Infof("Listening on port %d", cfg.Application.Port)
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Application.Port), r); err != nil {
 		sugar.Warnf("err %v", err)

@@ -1,6 +1,6 @@
 application:
   port: 3000
-  logpresetdev: true  
+  logpresetdev: false  
 observability:
   collector:
     host: "127.0.0.1"
