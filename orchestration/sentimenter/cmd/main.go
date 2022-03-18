@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-
 	"sentimenter/pkg/analyze"
 	"sentimenter/pkg/configuration"
 	"sentimenter/pkg/observability"
@@ -83,7 +82,7 @@ func main() {
 		w.WriteHeader(http.StatusNoContent)
 	})
 
-	analyzer, err := analyze.AnalyzeFunc()
+	analyzer, err := analyze.Analyze()
 	if err != nil {
 		sugar.Warnf("init sentiment analyzer: %v", err)
 
