@@ -56,7 +56,7 @@ func main() {
 		log.Fatalf("migration: %v", err)
 	}
 
-	if err := m.Up(); err != nil {
+	if err := m.Up(); err != nil && !errors.Is(err, migrate.ErrNoChange) {
 		log.Fatalf("up: %v", err)
 	}
 }
