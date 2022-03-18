@@ -8,21 +8,28 @@ All notable changes to this project will be documented in this file.
 
 - Add fatal to indicate migrations failure
 - Add migrations to docker build
+- Handle no change for migration
+- Duplicate entry
+- Remove \n
+- Ingress conf by host
 
 ### Documentation
 
 - Add todo
+- Gen
 
 ### Features
 
 - Archiver with db interaction added
 - Added changelog generation and generated it
 - Add init container
+- Add lint before build
 
 ### Miscellaneous Tasks
 
 - Update deps
 - Go 1.18
+- Cleanup .PHONY
 
 ### Release
 
