@@ -44,7 +44,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: dev
-        image: registry4gitops.localhost:56789/sentimenter:sentimenter-v1.0.0
+        image: registry4gitops.localhost:56789/sentimenter:sentimenter-v1.0.2
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
