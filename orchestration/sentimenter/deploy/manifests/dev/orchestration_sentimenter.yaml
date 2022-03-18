@@ -44,7 +44,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: dev
-        image: registry4gitops.localhost:56789/sentimenter:sentimenter-v1.0.3
+        image: registry4gitops.localhost:56789/sentimenter:sentimenter-v1.0.4
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -78,11 +78,17 @@ metadata:
   name: sentimenter
   namespace: orchestration
 spec:
-  defaultBackend:
-    service:
-      name: sentimenter
-      port:
-        number: 3000
+  rules:
+  - host: sentimenter.orchestration.dev
+    http:
+      paths:
+      - backend:
+          service:
+            name: sentimenter
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
   tls:
   - hosts:
     - sentimenter.orchestration.dev
