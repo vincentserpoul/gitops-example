@@ -59,14 +59,14 @@ func main() {
 		),
 	)
 	if err != nil {
-		log.Printf("init provider: %v", err)
+		sugar.Errorf("init provider: %v", err)
 
 		return
 	}
 
 	defer func() {
 		if err := shutdown(); err != nil {
-			log.Printf("shutdown: %v", err)
+			sugar.Errorf("shutdown: %v", err)
 
 			return
 		}
@@ -89,7 +89,9 @@ func main() {
 	))
 
 	// serve router
-	fmt.Printf("Listening on port %d\n", cfg.Application.Port)
+	sugar.Infof("Listening on port %d", cfg.Application.Port)
 
-	_ = http.ListenAndServe(fmt.Sprintf(":%d", cfg.Application.Port), r)
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Application.Port), r); err != nil {
+		sugar.Warnf("err %v", err)
+	}
 }
