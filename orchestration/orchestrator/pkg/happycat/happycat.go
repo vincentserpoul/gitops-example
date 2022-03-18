@@ -12,7 +12,7 @@ var ErrNoPositiveCatFact = errors.New("could not find any positive cat fact")
 
 const MinPositiveScore = 1
 
-func get1HappyCatFact(
+func get1HappyCatFact( //nolint: cyclop
 	ctx context.Context,
 	timeoutCatFacts, timeoutSentimenter time.Duration,
 	catFactsURL, sentiumURL string,
@@ -78,7 +78,6 @@ receiveResults:
 	for {
 		select {
 		case s = <-firstPositiveCatFact:
-			fmt.Println("get a positive")
 			break receiveResults
 		case e := <-errorsC:
 			errs = append(errs, e)

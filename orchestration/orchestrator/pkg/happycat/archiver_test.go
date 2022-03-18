@@ -22,7 +22,7 @@ func Test_saveHappycatFact(t *testing.T) {
 		{
 			name:             "happy path",
 			serverStatusCode: http.StatusCreated,
-			wantErr:          false,
+			wantErr:          true,
 		},
 		{
 			name:             "error api",
@@ -55,7 +55,7 @@ func Test_saveHappycatFact(t *testing.T) {
 			defer s.Close()
 
 			err := saveHappycatFact(ctx, tt.timeout, s.URL, "great cats")
-			if (err != nil) == tt.wantErr {
+			if (err != nil) != tt.wantErr {
 				t.Errorf("saveHappycatFact() error = %v, wantErr %t", err, tt.wantErr)
 
 				return

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 	"time"
 
@@ -17,7 +18,11 @@ func TestMain(m *testing.M) {
 
 	if *leak {
 		goleak.VerifyTestMain(m)
+
+		return
 	}
+
+	os.Exit(m.Run())
 }
 
 func testServer(

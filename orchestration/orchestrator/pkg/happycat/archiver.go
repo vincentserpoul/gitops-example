@@ -33,7 +33,7 @@ func saveHappycatFact(
 		return fmt.Errorf("error mashalling text: %s - %w", fact, err)
 	}
 
-	ctxArchiver, cancel := context.WithDeadline(ctx, time.Now().Add(timeoutArchiver))
+	ctxArchiver, cancel := context.WithTimeout(ctx, timeoutArchiver)
 	defer cancel()
 
 	res, err := otelhttp.Post(ctxArchiver, url, "application/json", bytes.NewReader(body))
