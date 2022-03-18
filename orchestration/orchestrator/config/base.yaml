@@ -7,7 +7,7 @@ catfact:
 sentimenter:
   url: "http://sentimenter:3000/v1"
   timeout: "250ms"  
-sentimenter:
+archiver:
   url: "http://archiver:3000/v1"
   timeout: "250ms"   
 observability:

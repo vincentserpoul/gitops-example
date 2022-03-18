@@ -25,12 +25,12 @@ func main() {
 	cfg, err := configuration.GetConfig(currEnv)
 	if err != nil {
 		if errors.Is(err, configuration.MissingBaseConfigError{}) {
-			log.Printf("getConfig: %v", err)
+			log.Printf("error getConfig: %v", err)
 
 			return
 		}
 
-		log.Printf("getConfig: %v", err)
+		log.Printf("warning getConfig: %v", err)
 	}
 
 	// logging
