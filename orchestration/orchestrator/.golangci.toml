@@ -15,12 +15,12 @@ enable = [
     "errcheck",
     "errorlint",
     "exhaustive",
-    "exhaustivestruct",
+    # "exhaustivestruct",
     "exportloopref",
     # "forbidigo",
     "forcetypeassert",
     # "funlen",
-    "gci",
+    # "gci",
     "gochecknoglobals",
     "gochecknoinits",
     "gocognit",
@@ -34,7 +34,7 @@ enable = [
     "gofumpt",
     "goheader",
     "goimports",
-    "golint",
+    # "golint",
     "gomnd",
     "gomoddirectives",
     "gomodguard",
@@ -78,15 +78,23 @@ enable = [
     "bidichk",
     "contextcheck",
     "errname",
-    "interfacer",
+    # "interfacer",
     "ireturn",
-    "maligned",
+    # "maligned",
     "nilnil",
     "promlinter",
-    "scopelint",
+    # "scopelint",
     # "tagliatelle",
     "tenv",
     # "testpackage",
     # "varnamelen",
 ]
 
+[run]
+skip-dirs = [
+    "pkg/internal/db"
+]
+
+[[issues.exclude-rules]]
+path = '(.+)_test\.go'
+linters = ["funlen", "goconst", "interfacer", "dupl", "lll"]
