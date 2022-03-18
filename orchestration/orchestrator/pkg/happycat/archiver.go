@@ -36,9 +36,11 @@ func saveHappycatFact(
 	ctxArchiver, cancel := context.WithTimeout(ctx, timeoutArchiver)
 	defer cancel()
 
-	res, err := otelhttp.Post(ctxArchiver, baseURL+"/happycatfact", "application/json", bytes.NewReader(body))
+	url := baseURL + "/happycatfact"
+
+	res, err := otelhttp.Post(ctxArchiver, url, "application/json", bytes.NewReader(body))
 	if err != nil {
-		return fmt.Errorf("error requesting: %w", err)
+		return fmt.Errorf("error requesting %s: %w", url, err)
 	}
 
 	defer res.Body.Close()
