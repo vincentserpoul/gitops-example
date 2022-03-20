@@ -7,8 +7,12 @@ APP_NAME?=archiver
 # test #
 ########
 
-test:
-	go test ./pkg/... -race -cover && \
+test: test-race test-leak
+
+test-race:
+	go test ./pkg/... -race -cover
+
+test-leak:
 	go test ./pkg/... -leak
 
 bench:
