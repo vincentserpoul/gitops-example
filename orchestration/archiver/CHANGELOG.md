@@ -6,7 +6,14 @@ All notable changes to this project will be documented in this file.
 
 ### Miscellaneous Tasks
 
+- Update CHANGELOG.md for archiver:archiver-v1.0.16
+
+## [archiver-v1.0.16] - 2022-03-20
+
+### Miscellaneous Tasks
+
 - Update CHANGELOG.md for archiver:archiver-v1.0.15
+- Update commit changelog
 
 ## [archiver-v1.0.15] - 2022-03-20
 
