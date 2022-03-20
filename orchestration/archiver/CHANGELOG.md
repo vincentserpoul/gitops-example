@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.0.9] - 2022-03-20
+
+### Bug Fixes
+
+- Add user non directive to avoid permission issues
+
+### Release
+
+- V1.0.7
+
 ## [archiver-v1.0.7] - 2022-03-20
 
 ### Documentation

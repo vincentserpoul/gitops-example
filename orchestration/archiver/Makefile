@@ -32,6 +32,20 @@ docker-build:
 	docker pull gcr.io/distroless/static && \
 	docker build -t $(APP_NAME) ./
 
+
+###########
+# release #
+###########
+
+release: release-tag changelog-gen
+
+release-tag:
+	@printf "here is the latest tag present: "; \
+	git describe --abbrev=0 --tags --match "$(APP_NAME)*"; \
+	printf "what tag do you want to give? (use the form $(APP_NAME)-vX.X.X): "; \
+	read -r TAG && \
+	git tag $$TAG; echo "release tagged!"
+
 ########
 # lint #
 ########
