@@ -24,14 +24,12 @@ RUN CGO_ENABLED=0 go build \
 # Final
 FROM gcr.io/distroless/static:nonroot AS final
 
-USER nonroot:nonroot
+COPY --chown=nonroot:nonroot ./sql/migrations /sql/migrations
 
-COPY ./sql/migrations /sql/migrations
+COPY --from=build --chown=nonroot:nonroot /migrations /migrations
 
-COPY --from=build /migrations /migrations
+COPY --chown=nonroot:nonroot ./config /config/
 
-COPY ./config /config/
-
-COPY --from=build /app /app
+COPY --from=build --chown=nonroot:nonroot /app /app
 
 ENTRYPOINT ["/app"]
