@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [archiver-v1.0.7] - 2022-03-20
 
 ### Documentation
 
@@ -11,6 +11,17 @@ All notable changes to this project will be documented in this file.
 ### Miscellaneous Tasks
 
 - Release
+- Update golangci-lint version
+- Update golangci-lint
+
+### Testing
+
+- Add cover
+- Split test leak and race in the makefile
+
+### Security
+
+- Add nonroot tag for final docker image
 
 ## [archiver-v1.0.6] - 2022-03-18
 
