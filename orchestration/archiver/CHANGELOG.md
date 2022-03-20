@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.0.11] - 2022-03-20
+
+### Bug Fixes
+
+- Add chown
+
+## [archiver-v1.0.10] - 2022-03-20
+
+### Bug Fixes
+
+- Add chown
+
+### Miscellaneous Tasks
+
+- V1.0.9
+- Better messaging after build
+
 ## [archiver-v1.0.9] - 2022-03-20
 
 ### Bug Fixes
