@@ -26,7 +26,7 @@ bench-compare:
 #########
 
 build: lint test docker-build 
-	@echo "tag your build with - git tag $(APP_NAME)-vX.X.X"
+	@printf "\n you can now create a release: make release\n"
 
 docker-build:
 	docker pull gcr.io/distroless/static && \
