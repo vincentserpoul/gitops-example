@@ -86,4 +86,4 @@ changelog-gen:
 	printf "changelog generated!\n"
 
 changelog-commit:
-	git commit -m "doc(changelog): update" ../CHANGELOG.md
+	git commit -m "doc(changelog): update changelog" ../CHANGELOG.md
