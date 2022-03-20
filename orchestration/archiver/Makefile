@@ -1,4 +1,4 @@
-.PHONY: test bench bench-compare lint build docker-build release release-tag changelog-gen  sec-scan upgrade db-init sql-gen
+.PHONY: test bench bench-compare lint build docker-build sec-scan upgrade db-init sql-gen
 
 PROJECT_NAME?=orchestration
 APP_NAME?=archiver
@@ -38,30 +38,6 @@ build: lint test docker-build
 docker-build:
 	docker pull gcr.io/distroless/static && \
 	docker build -t $(APP_NAME) ./
-
-
-###########
-# release #
-###########
-
-release: release-tag changelog-gen
-
-release-tag:
-	@printf "here is the latest tag present: "; \
-	git describe --abbrev=0 --tags --match "$(APP_NAME)*"; \
-	printf "what tag do you want to give? (use the form $(APP_NAME)-vX.X.X): "; \
-	read -r TAG && \
-	git tag $$TAG; \
-	printf "\nrelease tagged!"
-
-
-#############
-# changelog #
-#############
-
-changelog-gen:
-	@git cliff -c ./cliff.toml -o ./CHANGELOG.md --include-path "**/$(APP_NAME)/*" --repository ../../; \
-	printf "changelog generated!\n"
 
 #######
 # sec #

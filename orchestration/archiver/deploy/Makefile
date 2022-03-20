@@ -7,20 +7,17 @@ include env/overlays/$(ENV)/$(ENV).env
 
 export
 
+APP_VERSION = $(shell git describe --abbrev=0 --tags --match "$(APP_NAME)*")
 IMAGE_NAME = $(CONTAINER_REGISTRY_URL)$(APP_NAME):$(APP_VERSION)
 APP_TLS_SECRET = $(shell echo $(APP_DOMAIN) | tr "." "-")
 
-deploy-latest: context-select image-tag image-push manifest-kustomize-build manifest-apply
-
-# deploy-latest: context-select image-tag image-push manifest-kustomize-build manifest-apply release-commit
-
+deploy-latest: release context-select image-tag image-push manifest-kustomize-build manifest-apply release-commit
 
 ###########
 # HELPERS #
 ###########
 
-release-commit:
-	git commit -m "manifest build and deploy $(IMAGE_NAME) to $(ENV)" ./manifests/*
+
 
 context-select:
 	kubectl config use-context $(K8S_CONTEXT)
@@ -61,3 +58,34 @@ image-push:
 	else \
 		docker push $(IMAGE_NAME); \
 	fi
+
+###########
+# release #
+###########
+
+release-post-deploy: release-commit release-deploy-retag changelog-gen changelog-commit
+
+release-tag:
+	@printf "here is the latest tag present: "; \
+	git describe --abbrev=0 --tags --match "$(APP_NAME)*"; \
+	printf "what tag do you want to give? (use the form $(APP_NAME)-vX.X.X): "; \
+	read -r TAG && \
+	git tag $$TAG; \
+	printf "\nrelease tagged!"
+
+release-deploy-retag:
+	git tag -f $(APP_VERSION)
+
+release-commit:
+	git commit -m "chore (release): $(IMAGE_NAME) to $(ENV)" ./manifests/*
+
+#############
+# changelog #
+#############
+
+changelog-gen:
+	@git cliff -c ./cliff.toml -o ../CHANGELOG.md --include-path "**/$(APP_NAME)/*" --repository ../../../; \
+	printf "changelog generated!\n"
+
+changelog-commit:
+	git commit -m "doc(changelog): update" ../CHANGELOG.md
