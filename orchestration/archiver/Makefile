@@ -58,7 +58,7 @@ lint:
 #############
 
 changelog-gen:
-	git cliff -c ./cliff.toml -o ./CHANGELOG.md --include-path "**/$(APP_NAME)/*" --repository ../../
+	@git cliff -c ./cliff.toml -o ./CHANGELOG.md --include-path "**/$(APP_NAME)/*" --repository ../../
 
 #######
 # sec #
