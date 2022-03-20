@@ -11,13 +11,11 @@ APP_VERSION = $(shell git describe --abbrev=0 --tags --match "$(APP_NAME)*")
 IMAGE_NAME = $(CONTAINER_REGISTRY_URL)$(APP_NAME):$(APP_VERSION)
 APP_TLS_SECRET = $(shell echo $(APP_DOMAIN) | tr "." "-")
 
-deploy-latest: release context-select image-tag image-push manifest-kustomize-build manifest-apply release-commit
+deploy-latest: release-tag context-select image-tag image-push manifest-kustomize-build manifest-apply release-post-deploy
 
 ###########
 # HELPERS #
 ###########
-
-
 
 context-select:
 	kubectl config use-context $(K8S_CONTEXT)
@@ -74,10 +72,10 @@ release-tag:
 	printf "\nrelease tagged!"
 
 release-deploy-retag:
-	git tag -f $(APP_VERSION)
+	@git tag -f $(APP_VERSION)
 
 release-commit:
-	git commit -m "chore (release): $(IMAGE_NAME) to $(ENV)" ./manifests/*
+	git commit -m "chore (release): deployed $(IMAGE_NAME) to $(ENV)" ./manifests/*
 
 #############
 # changelog #
