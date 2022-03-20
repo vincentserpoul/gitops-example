@@ -6,6 +6,17 @@ All notable changes to this project will be documented in this file.
 
 ### Bug Fixes
 
+- Add chown
+
+### Miscellaneous Tasks
+
+- Add release and release-tag
+- Add a silencer for git-cliff
+
+## [archiver-v1.0.8] - 2022-03-20
+
+### Bug Fixes
+
 - Add user non directive to avoid permission issues
 
 ### Release
