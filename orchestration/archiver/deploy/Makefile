@@ -81,10 +81,10 @@ release-commit:
 # changelog #
 #############
 
-MESSAGE_CHANGELOG_COMMIT=$(shell echo "chore(release): update CHANGELOG.md for $(APP_NAME):$(APP_VERSION)")
+MESSAGE_CHANGELOG_COMMIT=$(shell echo "update CHANGELOG.md for $(APP_NAME):$(APP_VERSION)")
 
 changelog-gen:
-	@git cliff -c ../cliff.toml -o ../CHANGELOG.md --include-path "**/$(APP_NAME)/*" --repository ../../../ --with-commit "$(MESSAGE_CHANGELOG_COMMIT)"; \
+	@git cliff -c ../cliff.toml -o ../CHANGELOG.md --include-path "**/$(APP_NAME)/*" --repository ../../../; \
 	printf "changelog generated!\n"
 
 # keep this commit unconventional so it doesnt appear in the changelog
