@@ -24,6 +24,8 @@ RUN CGO_ENABLED=0 go build \
 # Final
 FROM gcr.io/distroless/static:nonroot AS final
 
+USER nonroot:nonroot
+
 COPY ./sql/migrations /sql/migrations
 
 COPY --from=build /migrations /migrations
