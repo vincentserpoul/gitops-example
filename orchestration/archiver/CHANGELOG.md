@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [archiver-v1.0.17] - 2022-03-20
 
 ### Miscellaneous Tasks
 
