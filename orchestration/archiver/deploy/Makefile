@@ -75,15 +75,18 @@ release-deploy-retag:
 	@git tag -f $(APP_VERSION)
 
 release-commit:
-	git commit -m "chore (release): deployed $(IMAGE_NAME) to $(ENV)" ./manifests/*
+	git commit -m "chore (release): deployed $(APP_NAME):$(APP_VERSION) to $(ENV)" ./manifests/*
 
 #############
 # changelog #
 #############
 
+MESSAGE_CHANGELOG_COMMIT=$(shell echo "chore(release): update CHANGELOG.md for $(APP_NAME):$(APP_VERSION)")
+
 changelog-gen:
-	@git cliff -c ../cliff.toml -o ../CHANGELOG.md --include-path "**/$(APP_NAME)/*" --repository ../../../; \
+	@git cliff -c ../cliff.toml -o ../CHANGELOG.md --include-path "**/$(APP_NAME)/*" --repository ../../../ --with-commit=$(MESSAGE_CHANGELOG_COMMIT); \
 	printf "changelog generated!\n"
 
+# keep this commit unconventional so it doesnt appear in the changelog
 changelog-commit:
-	git commit -m "doc(changelog): update changelog" ../CHANGELOG.md
+	git commit -m $(MESSAGE_CHANGELOG_COMMIT) ../CHANGELOG.md
