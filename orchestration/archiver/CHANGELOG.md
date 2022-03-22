@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.0.20] - 2022-03-22
+
+### Performance
+
+- Use github.com/goccy/go-json instead of encoding json
+
+### Security
+
+- Remove bench from docker
+
 ## [archiver-v1.0.19] - 2022-03-22
 
 ### Bug Fixes
