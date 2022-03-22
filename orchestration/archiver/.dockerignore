@@ -8,3 +8,4 @@ profiling.sh
 .golangci.toml
 deploy/
 cliff.toml
+bench.txt
