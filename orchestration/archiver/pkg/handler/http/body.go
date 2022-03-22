@@ -1,8 +1,9 @@
 package http
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"github.com/goccy/go-json"
 )
 
 const (
