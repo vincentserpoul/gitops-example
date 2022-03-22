@@ -2,24 +2,25 @@ package main
 
 import (
 	"archiver/pkg/configuration"
-	"archiver/pkg/happycat"
+	happycathttp "archiver/pkg/happycat/http"
 	"archiver/pkg/observability"
 	"archiver/pkg/postgres"
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/riandyrn/otelchi"
-	"go.uber.org/zap"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 
 	_ "github.com/lib/pq"
 )
 
-func main() { // nolint:cyclop
+// nolint: cyclop
+func main() {
 	// configuration
 	currEnv := "local"
 	if e := os.Getenv("APP_ENVIRONMENT"); e != "" {
@@ -38,20 +39,9 @@ func main() { // nolint:cyclop
 	}
 
 	// logging
-	var logger *zap.Logger
-	if cfg.Application.LogPresetDev {
-		logger, _ = zap.NewDevelopment()
-	} else {
-		logger, _ = zap.NewProduction()
+	if cfg.Application.PrettyLog {
+		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	}
-
-	defer func() {
-		if err := logger.Sync(); err != nil {
-			log.Printf("logger sync: %v", err)
-		}
-	}()
-
-	sugar := logger.Sugar()
 
 	// observability
 	shutdown, err := observability.InitProvider(
@@ -63,14 +53,14 @@ func main() { // nolint:cyclop
 		),
 	)
 	if err != nil {
-		sugar.Errorf("init provider: %v", err)
+		log.Err(err).Msg("init provider")
 
 		return
 	}
 
 	defer func() {
 		if err := shutdown(); err != nil {
-			sugar.Warnf("shutdown: %v", err)
+			log.Warn().Err(err).Msg("shutdown")
 		}
 	}()
 
@@ -79,18 +69,18 @@ func main() { // nolint:cyclop
 
 	dbConn, q, err := postgres.New(ctx, &cfg.Databases.Write)
 	if err != nil {
-		sugar.Warnf("shutdown: %v", err)
+		log.Warn().Err(err).Msg("postgres")
 
 		return
 	}
 
 	defer func() {
 		if err := q.Close(); err != nil {
-			sugar.Warnf("querier close: %v", err)
+			log.Warn().Err(err).Msg("querier close")
 		}
 
 		if err := dbConn.Close(); err != nil {
-			sugar.Warnf("db close: %v", err)
+			log.Warn().Err(err).Msg("db close")
 		}
 	}()
 
@@ -104,12 +94,16 @@ func main() { // nolint:cyclop
 
 	version := "v1"
 
-	happycat.AddRoutes(version, r, q, sugar)
+	happycathttp.AddRoutes(version, r, log.Logger, q, chiNamedURLParamsGetter)
 
 	// serve router
-	sugar.Infof("Listening on port %d", cfg.Application.Port)
+	log.Info().Int("port", cfg.Application.Port).Msg("listening")
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Application.Port), r); err != nil {
-		sugar.Warnf("err %v", err)
+		log.Warn().Err(err).Msg("")
 	}
+}
+
+func chiNamedURLParamsGetter(ctx context.Context, key string) string {
+	return chi.URLParamFromCtx(ctx, key)
 }

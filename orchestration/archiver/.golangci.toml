@@ -97,4 +97,4 @@ skip-dirs = [
 
 [[issues.exclude-rules]]
 path = '(.+)_test\.go'
-linters = ["funlen", "goconst", "interfacer", "dupl", "lll"]
+linters = ["funlen", "goconst", "interfacer", "dupl", "lll", "goerr113"]

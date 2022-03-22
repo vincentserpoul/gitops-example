@@ -1,4 +1,4 @@
-package happycat
+package http
 
 import (
 	"archiver/pkg/internal/db"

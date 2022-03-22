@@ -2,8 +2,8 @@ package configuration
 
 type Config struct {
 	Application struct {
-		Port         int
-		LogPresetDev bool
+		Port      int
+		PrettyLog bool
 	}
 	Databases struct {
 		Read  Database
