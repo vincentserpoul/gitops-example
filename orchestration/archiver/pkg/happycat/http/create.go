@@ -12,22 +12,12 @@ func createHandler(
 	return func(r *http.Request) (*handlerhttp.Response, *handlerhttp.ErrorResponse) {
 		var params db.SaveHappycatFactParams
 
-		if err := handlerhttp.DecodeBody(r, &params); err != nil {
-			return nil, &handlerhttp.ErrorResponse{
-				Error:          err,
-				HTTPStatusCode: http.StatusBadRequest,
-				ErrorCode:      "bad_request",
-				ErrorMsg:       "wrong cat fact post",
-			}
+		if errR := handlerhttp.BindBody(r, &params); errR != nil {
+			return nil, errR
 		}
 
 		if err := q.SaveHappycatFact(r.Context(), params); err != nil {
-			return nil, &handlerhttp.ErrorResponse{
-				Error:          err,
-				HTTPStatusCode: http.StatusInternalServerError,
-				ErrorCode:      "db_error",
-				ErrorMsg:       "internal error",
-			}
+			return nil, handlerhttp.InternalServerError{Err: err}.ToErrorResponse()
 		}
 
 		return &handlerhttp.Response{

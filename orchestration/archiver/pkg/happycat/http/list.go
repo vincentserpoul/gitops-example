@@ -15,20 +15,10 @@ func listHandler(
 		hcfs, err := q.ListHappycatFacts(r.Context())
 		if err != nil {
 			if errors.Is(err, sql.ErrNoRows) {
-				return nil, &handlerhttp.ErrorResponse{
-					Error:          NoHappyCatFactFoundError{},
-					HTTPStatusCode: http.StatusNotFound,
-					ErrorCode:      "db_not_found",
-					ErrorMsg:       NoHappyCatFactFoundError{}.Error(),
-				}
+				return nil, handlerhttp.NotFoundError{Designation: "happy cat fact"}.ToErrorResponse()
 			}
 
-			return nil, &handlerhttp.ErrorResponse{
-				Error:          err,
-				HTTPStatusCode: http.StatusInternalServerError,
-				ErrorCode:      "db_error",
-				ErrorMsg:       "internal error",
-			}
+			return nil, handlerhttp.InternalServerError{Err: err}.ToErrorResponse()
 		}
 
 		return &handlerhttp.Response{

@@ -16,9 +16,9 @@ import (
 func Test_getHandler(t *testing.T) {
 	t.Parallel()
 
-	gnupGen := func(s string) func(context.Context, string) string {
-		return func(_ctx context.Context, key string) string {
-			return s
+	gnupGen := func(s string) func(context.Context, string) (string, *handlerhttp.ErrorResponse) {
+		return func(_ctx context.Context, key string) (string, *handlerhttp.ErrorResponse) {
+			return s, nil
 		}
 	}
 
@@ -74,12 +74,7 @@ func Test_getHandler(t *testing.T) {
 			existingHappyCatFacts: []*db.HappycatFact{},
 			urlParam:              "wrong format",
 			httpResponse:          nil,
-			httpErrorResponse: &handlerhttp.ErrorResponse{
-				Error:          WrongIDFormatError{ID: "wrong format", Err: nil},
-				HTTPStatusCode: http.StatusBadRequest,
-				ErrorCode:      "bad_request",
-				ErrorMsg:       "wrong format id",
-			},
+			httpErrorResponse:     handlerhttp.ParsingParamError{Name: "happyCatFactID", Value: "wrong format"}.ToErrorResponse(),
 		},
 	}
 
@@ -133,7 +128,12 @@ func Benchmark_getHandler(b *testing.B) {
 
 	h := getHandler(
 		q,
-		func(_ctx context.Context, key string) string { return id.String() },
+		func(
+			_ctx context.Context,
+			key string,
+		) (string, *handlerhttp.ErrorResponse) {
+			return id.String(), nil
+		},
 	)
 
 	b.ResetTimer()
