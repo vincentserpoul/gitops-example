@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestDecodeBody(t *testing.T) {
+func TestBindBody(t *testing.T) {
 	t.Parallel()
 
 	type testTarget struct {
@@ -48,14 +48,14 @@ func TestDecodeBody(t *testing.T) {
 
 			var target testTarget
 
-			if err := DecodeBody(req, &target); (err != nil) != tt.wantErr {
-				t.Errorf("HTTPDecodeBody() error = %v, wantErr %v", err, tt.wantErr)
+			if err := BindBody(req, &target); (err != nil) != tt.wantErr {
+				t.Errorf("HTTPBindBody() error = %v, wantErr %v", err, tt.wantErr)
 
 				return
 			}
 
 			if !tt.wantErr && target != tt.expectedTarget {
-				t.Errorf("HTTPDecodeBody() expected = %#v, got %#v", tt.expectedTarget, target)
+				t.Errorf("HTTPBindBody() expected = %#v, got %#v", tt.expectedTarget, target)
 
 				return
 			}
