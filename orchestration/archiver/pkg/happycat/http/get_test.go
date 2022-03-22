@@ -129,20 +129,16 @@ func Benchmark_getHandler(b *testing.B) {
 		},
 	})
 
-	h := getHandler(q,
-		func(_ctx context.Context, key string) string { return id.String() })
+	req := httptest.NewRequest("GET", "/", nil)
+
+	h := getHandler(
+		q,
+		func(_ctx context.Context, key string) string { return id.String() },
+	)
 
 	b.ResetTimer()
 
 	for n := 0; n < b.N; n++ {
-		b.StopTimer()
-
-		req := httptest.NewRequest("GET", "/", nil)
-
-		b.StartTimer()
-
 		_, _ = h(req)
-
-		b.StopTimer()
 	}
 }

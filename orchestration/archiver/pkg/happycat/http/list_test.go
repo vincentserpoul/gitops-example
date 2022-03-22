@@ -113,19 +113,13 @@ func Benchmark_listHandler(b *testing.B) {
 		},
 	})
 
+	req := httptest.NewRequest("GET", "/", nil)
+
 	h := listHandler(q)
 
 	b.ResetTimer()
 
 	for n := 0; n < b.N; n++ {
-		b.StopTimer()
-
-		req := httptest.NewRequest("GET", "/", nil)
-
-		b.StartTimer()
-
 		_, _ = h(req)
-
-		b.StopTimer()
 	}
 }

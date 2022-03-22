@@ -85,7 +85,5 @@ func BenchmarkCreateHandler(b *testing.B) {
 		b.StartTimer()
 
 		_, _ = h(req)
-
-		b.StopTimer()
 	}
 }
