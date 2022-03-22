@@ -1,4 +1,4 @@
-.PHONY: deploy-latest context-select image-tag image-push manifest-kustomize-build manifests-apply release-commit
+.PHONY: deploy-latest apply-latest context-select image-tag image-push manifest-kustomize-build manifests-apply release-commit
 
 ENV?=dev
 
@@ -11,7 +11,9 @@ APP_VERSION = $(shell git describe --abbrev=0 --tags --match "$(APP_NAME)*")
 IMAGE_NAME = $(CONTAINER_REGISTRY_URL)$(APP_NAME):$(APP_VERSION)
 APP_TLS_SECRET = $(shell echo $(APP_DOMAIN) | tr "." "-")
 
-deploy-latest: release-tag context-select image-tag image-push manifest-kustomize-build manifest-apply release-post-deploy
+deploy-latest: release-tag context-select image-tag image-push apply-latest release-post-deploy
+
+apply-latest: manifest-kustomize-build manifest-apply
 
 ###########
 # HELPERS #
