@@ -16,10 +16,10 @@ test-leak:
 	go test ./pkg/... -leak
 
 bench:
-	go test ./pkg/... -bench=. -benchmem
+	go test ./pkg/... -bench=. -benchmem | tee ./bench.txt
 
 bench-compare:
-	benchstat 
+	benchstat ./bench.txt
 
 ########
 # lint #
@@ -32,7 +32,7 @@ lint:
 # build #
 #########
 
-build: lint test docker-build 
+build: lint test bench docker-build 
 	@printf "\n you can now create a release: cd deploy\nmake release\n"
 
 docker-build:
