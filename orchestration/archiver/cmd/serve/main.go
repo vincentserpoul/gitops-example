@@ -2,6 +2,7 @@ package main
 
 import (
 	"archiver/pkg/configuration"
+	handlerhttp "archiver/pkg/handler/http"
 	happycathttp "archiver/pkg/happycat/http"
 	"archiver/pkg/observability"
 	"archiver/pkg/postgres"
@@ -104,6 +105,11 @@ func main() {
 	}
 }
 
-func chiNamedURLParamsGetter(ctx context.Context, key string) string {
-	return chi.URLParamFromCtx(ctx, key)
+func chiNamedURLParamsGetter(ctx context.Context, key string) (string, *handlerhttp.ErrorResponse) {
+	v := chi.URLParamFromCtx(ctx, key)
+	if v == "" {
+		return "", handlerhttp.MissingParamError{Name: key}.ToErrorResponse()
+	}
+
+	return v, nil
 }
