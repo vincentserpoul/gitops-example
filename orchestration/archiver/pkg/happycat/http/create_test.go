@@ -12,7 +12,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func TestCreateHandler(t *testing.T) {
+func Test_createHandler(t *testing.T) {
 	t.Parallel()
 
 	tests := []struct {
@@ -69,7 +69,7 @@ func TestCreateHandler(t *testing.T) {
 	}
 }
 
-func BenchmarkCreateHandler(b *testing.B) {
+func Benchmark_createHandler(b *testing.B) {
 	q := newTestQuerier(nil)
 	h := createHandler(q)
 
