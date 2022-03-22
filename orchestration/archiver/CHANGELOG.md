@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.0.19] - 2022-03-22
+
+### Bug Fixes
+
+- Use the new sig for the gnup
+
+### Features
+
+- Add common errors
+- Add benches to be able to compare later on
+
+### Miscellaneous Tasks
+
+- Replace interface{} by any
+- Add apply-latest to be able to fine tune yamls
+
+### Refactor
+
+- Use recently created errors
+
+### Styling
+
+- Replace interface{} by any
+
+### Testing
+
+- Add -benchmem for banches
+- Fix benchmarks
+- Rename create handler test
+- Update profiling
+
 ## [archiver-v1.0.18] - 2022-03-22
 
 ### Documentation
