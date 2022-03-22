@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.0.18] - 2022-03-22
+
+### Documentation
+
+- Release doc
+
+### Features
+
+- New with http simplified
+
+### Miscellaneous Tasks
+
+- Update golangci-lint
+- Update deps
+
+### Testing
+
+- K6 bench update
+
 ## [archiver-v1.0.17] - 2022-03-20
 
 ### Miscellaneous Tasks
