@@ -18,7 +18,7 @@ func TestDecodeBody(t *testing.T) {
 		name               string
 		requestContentType string
 		requestBody        string
-		expectedTarget     interface{}
+		expectedTarget     any
 		wantErr            bool
 	}{
 		{

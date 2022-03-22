@@ -37,7 +37,7 @@ func render(
 	log zerolog.Logger,
 	acceptHeader string, // nolint: unparam
 	httpStatusCode int,
-	responseBody interface{},
+	responseBody any,
 	w http.ResponseWriter,
 ) {
 	// nolint: gocritic

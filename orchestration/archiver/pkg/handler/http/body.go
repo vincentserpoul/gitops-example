@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func DecodeBody(r *http.Request, target interface{}) error {
+func DecodeBody(r *http.Request, target any) error {
 	// nolint: gocritic
 	// LATER: add more encodings
 	switch r.Header.Get("Content-Type") {

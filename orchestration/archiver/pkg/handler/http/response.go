@@ -7,7 +7,7 @@ import (
 )
 
 type Response struct {
-	Body           interface{}
+	Body           any
 	HTTPStatusCode int
 }
 
