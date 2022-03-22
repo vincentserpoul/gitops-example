@@ -33,7 +33,7 @@ lint:
 #########
 
 build: lint test docker-build 
-	@printf "\n you can now create a release: make release\n"
+	@printf "\n you can now create a release: cd deploy\nmake release\n"
 
 docker-build:
 	docker pull gcr.io/distroless/static && \
