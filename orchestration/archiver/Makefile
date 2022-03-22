@@ -16,7 +16,7 @@ test-leak:
 	go test ./pkg/... -leak
 
 bench:
-	go test ./pkg/... -bench=.
+	go test ./pkg/... -bench=. -benchmem
 
 bench-compare:
 	benchstat 
