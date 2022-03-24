@@ -36,7 +36,7 @@ func Wrapper(
 
 func render(
 	log zerolog.Logger,
-	acceptHeader string, // nolint: unparam
+	acceptHeader string,
 	httpStatusCode int,
 	responseBody interface{},
 	w http.ResponseWriter,
