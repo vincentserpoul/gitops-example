@@ -5,10 +5,7 @@ type Config struct {
 		Port      int
 		PrettyLog bool
 	}
-	Databases struct {
-		Read  Database
-		Write Database
-	}
+	Database
 	Observability struct {
 		Collector struct {
 			Host string

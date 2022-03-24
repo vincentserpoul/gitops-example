@@ -68,7 +68,7 @@ func main() {
 	// querier
 	ctx := context.Background()
 
-	dbConn, q, err := postgres.New(ctx, &cfg.Databases.Write)
+	dbConn, q, err := postgres.New(ctx, &cfg.Database)
 	if err != nil {
 		log.Warn().Err(err).Msg("postgres")
 

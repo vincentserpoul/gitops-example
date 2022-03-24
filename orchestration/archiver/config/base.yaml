@@ -1,15 +1,7 @@
 application:
   port: 3000
   prettylog: false  
-databases:
-  read:
-    host: "127.0.0.1"
-    port: 5432
-    username: "archiver_read"
-    password: "yourpass"
-    databasename: "archiver"
-    sslmode: "disable"
-  write:
+database:
     host: "127.0.0.1"
     port: 5432
     username: "archiver_write"

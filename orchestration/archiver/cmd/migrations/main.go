@@ -36,8 +36,8 @@ func main() {
 		"postgres",
 		fmt.Sprintf(
 			"postgres://%s:%s@%s:%d/%s?sslmode=%s",
-			cfg.Databases.Write.Username, cfg.Databases.Write.Password,
-			cfg.Databases.Write.Host, cfg.Databases.Write.Port, cfg.Databases.Write.DatabaseName, cfg.Databases.Write.SSLMode,
+			cfg.Database.Username, cfg.Database.Password,
+			cfg.Database.Host, cfg.Database.Port, cfg.Database.DatabaseName, cfg.Database.SSLMode,
 		),
 	)
 	if err != nil {
