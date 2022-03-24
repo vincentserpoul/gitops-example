@@ -3,11 +3,11 @@ application:
   prettylog: false  
 database:
     host: "127.0.0.1"
-    port: 5432
+    port: 26257
     username: "archiver_write"
     password: "yourpass"
     databasename: "archiver"
-    sslmode: "disable"
+    sslmode: "require"
 observability:
   collector:
     host: "127.0.0.1"
