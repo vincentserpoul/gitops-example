@@ -16,6 +16,16 @@ func (e NoHappyCatFactFoundError) Error() string {
 	return "no happy cat fact found"
 }
 
+// getHandler renders the article from the context
+// @Summary Get happy cat fact by id
+// @Description getHandler returns a single cat fact by id
+// @Tags happyCatFact
+// @Produce json
+// @Param happyCatFactID path string true "happy cat fact id"
+// @Router /happycatfact/{happyCatFactID} [get]
+// @Success 200 {object} db.HappycatFact
+// @Failure 400 {object} handlerhttp.ErrorResponse
+// @Failure 404 {object} handlerhttp.ErrorResponse
 func getHandler(
 	q db.Querier,
 	gnup handlerhttp.NamedURLParamsGetter,

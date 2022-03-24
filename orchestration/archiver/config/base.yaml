@@ -1,6 +1,9 @@
 application:
   port: 3000
-  prettylog: false  
+  prettylog: false
+  url:
+    host: "localhost:3000"
+    schemes: ["https"]
 database:
     host: "127.0.0.1"
     port: 26257

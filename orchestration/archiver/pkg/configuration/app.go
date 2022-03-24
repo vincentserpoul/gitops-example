@@ -4,6 +4,10 @@ type Config struct {
 	Application struct {
 		Port      int
 		PrettyLog bool
+		URL       struct {
+			Host    string
+			Schemes []string
+		}
 	}
 	Database
 	Observability struct {

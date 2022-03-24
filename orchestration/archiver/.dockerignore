@@ -1,8 +1,9 @@
 .dockerignore
+benchmarks/
 target/
 deploy/
+docs/
 Dockerfile
-benchmarks/
 Makefile
 profiling.sh
 .golangci.toml

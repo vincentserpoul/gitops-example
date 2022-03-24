@@ -74,3 +74,10 @@ db-pg-init:
 
 sql-gen:
 	sqlc -f ./sql/sqlc.yaml generate
+
+###########
+# swagger #
+###########
+
+swagger-gen:
+	swag init -d ./cmd/serve --parseDependency

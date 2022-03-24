@@ -1,6 +1,7 @@
 package main
 
 import (
+	"archiver/docs"
 	"archiver/pkg/configuration"
 	handlerhttp "archiver/pkg/handler/http"
 	happycathttp "archiver/pkg/happycat/http"
@@ -16,8 +17,21 @@ import (
 	"github.com/riandyrn/otelchi"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
+// @title Swagger archiver API
+// @description This is a sample server db save service.
+
+// @contact.name Vince
+// @contact.url https://vincent.serpoul.com
+// @contact.email v@po.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host archiver.orchestration.dev
+// @BasePath /v1
 func main() {
 	// configuration
 	currEnv := "local"
@@ -82,6 +96,19 @@ func main() {
 	})
 
 	version := "v1"
+
+	// swagger
+	docs.SwaggerInfo.Version = version
+	docs.SwaggerInfo.Host = cfg.Application.URL.Host
+	docs.SwaggerInfo.Schemes = cfg.Application.URL.Schemes
+
+	r.Get("/"+version+"/swagger/*", httpSwagger.Handler(
+		httpSwagger.URL(
+			fmt.Sprintf("%s/%s/%s/swagger/doc.json",
+				cfg.Application.URL.Schemes[0], cfg.Application.URL.Host, version,
+			),
+		),
+	))
 
 	happycathttp.AddRoutes(version, r, log.Logger, q, chiNamedURLParamsGetter)
 

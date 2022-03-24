@@ -6,6 +6,15 @@ import (
 	"net/http"
 )
 
+// createHandler renders the article from the context
+// @Summary saves a happy cat fact
+// @Description createHandler does not return an article
+// @Tags HappyCat
+// @Router /happycatfact [post]
+// @Param happycatfact body db.SaveHappycatFactParams true "happy cat fact"
+// @Success 201
+// @Failure 400 {object} handlerhttp.ErrorResponse
+// @Failure 404 {object} handlerhttp.ErrorResponse
 func createHandler(
 	q db.Querier,
 ) handlerhttp.TypedHandler {

@@ -1,0 +1,111 @@
+basePath: /v1
+definitions:
+  db.HappycatFact:
+    properties:
+      created_at:
+        type: string
+      fact:
+        type: string
+      id:
+        type: string
+    type: object
+  db.SaveHappycatFactParams:
+    properties:
+      fact:
+        type: string
+      id:
+        type: string
+    type: object
+  http.ErrorResponse:
+    properties:
+      error_code:
+        type: string
+      error_msg:
+        type: string
+    type: object
+host: archiver.orchestration.dev
+info:
+  contact:
+    email: v@po.com
+    name: Vince
+    url: https://vincent.serpoul.com
+  description: This is a sample server db save service.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Swagger archiver API
+paths:
+  /happycatfact:
+    get:
+      description: listHandler returns a list of cat fact
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.HappycatFact'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Get list of happy cat facts
+      tags:
+      - happyCatFact
+    post:
+      description: createHandler does not return an article
+      parameters:
+      - description: happy cat fact
+        in: body
+        name: happycatfact
+        required: true
+        schema:
+          $ref: '#/definitions/db.SaveHappycatFactParams'
+      responses:
+        "201":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: saves a happy cat fact
+      tags:
+      - HappyCat
+  /happycatfact/{happyCatFactID}:
+    get:
+      description: getHandler returns a single cat fact by id
+      parameters:
+      - description: happy cat fact id
+        in: path
+        name: happyCatFactID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.HappycatFact'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Get happy cat fact by id
+      tags:
+      - happyCatFact
+swagger: "2.0"
