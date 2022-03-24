@@ -16,11 +16,8 @@ import (
 	"github.com/riandyrn/otelchi"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-
-	_ "github.com/lib/pq"
 )
 
-// nolint: cyclop
 func main() {
 	// configuration
 	currEnv := "local"
@@ -74,16 +71,7 @@ func main() {
 
 		return
 	}
-
-	defer func() {
-		if err := q.Close(); err != nil {
-			log.Warn().Err(err).Msg("querier close")
-		}
-
-		if err := dbConn.Close(); err != nil {
-			log.Warn().Err(err).Msg("db close")
-		}
-	}()
+	defer dbConn.Close()
 
 	// router
 	r := chi.NewRouter()

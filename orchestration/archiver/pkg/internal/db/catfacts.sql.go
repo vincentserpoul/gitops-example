@@ -17,7 +17,7 @@ ORDER BY id
 `
 
 func (q *Queries) GetHappycatFact(ctx context.Context, id uuid.UUID) (*HappycatFact, error) {
-	row := q.queryRow(ctx, q.getHappycatFactStmt, getHappycatFact, id)
+	row := q.db.QueryRow(ctx, getHappycatFact, id)
 	var i HappycatFact
 	err := row.Scan(&i.ID, &i.Fact, &i.CreatedAt)
 	return &i, err
@@ -30,7 +30,7 @@ ORDER BY id
 `
 
 func (q *Queries) ListHappycatFacts(ctx context.Context) ([]*HappycatFact, error) {
-	rows, err := q.query(ctx, q.listHappycatFactsStmt, listHappycatFacts)
+	rows, err := q.db.Query(ctx, listHappycatFacts)
 	if err != nil {
 		return nil, err
 	}
@@ -42,9 +42,6 @@ func (q *Queries) ListHappycatFacts(ctx context.Context) ([]*HappycatFact, error
 			return nil, err
 		}
 		items = append(items, &i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -63,6 +60,6 @@ type SaveHappycatFactParams struct {
 }
 
 func (q *Queries) SaveHappycatFact(ctx context.Context, arg SaveHappycatFactParams) error {
-	_, err := q.exec(ctx, q.saveHappycatFactStmt, saveHappycatFact, arg.ID, arg.Fact)
+	_, err := q.db.Exec(ctx, saveHappycatFact, arg.ID, arg.Fact)
 	return err
 }
