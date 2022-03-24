@@ -2,6 +2,7 @@
 benchmarks/
 target/
 deploy/
+sql/crdb-certs
 Dockerfile
 Makefile
 profiling.sh
@@ -9,3 +10,4 @@ profiling.sh
 deploy/
 cliff.toml
 bench.txt
+*.sed.sql

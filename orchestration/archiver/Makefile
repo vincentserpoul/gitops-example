@@ -60,13 +60,33 @@ upgrade:
 ######
 
 db-pg-init: 
-	@(printf "Enter pass for db: "; read -rs DB_PASSWORD && \
+	@( \
+	printf "Enter pass for db: "; read -rs DB_PASSWORD && \
 	printf "\nEnter environment suffix(_dev, _local...): "; read DB_SUFFIX &&\
 	sed \
 	-e "s/DB_PASSWORD/$$DB_PASSWORD/g" \
 	-e "s/DB_SUFFIX/$$DB_SUFFIX/g" \
 	./sql/init/init.sql | \
-	PGPASSWORD=$$DB_PASSWORD psql -h localhost -p 5436 -U postgres -f -)
+	PGPASSWORD=$$DB_PASSWORD psql -h localhost -p 5436 -U postgres -f - \
+	)
+
+db-cockroachdb-rootkey:
+	mkdir ./sql/crdb-certs && \
+	kubectl cp cockroachdb/cockroachdb-0:/cockroach/cockroach-certs/ca.crt ./sql/crdb-certs/ca.crt && \
+	cockroach cert create-client \
+		--certs-dir=./sql/crdb-certs \
+		--ca-key=$(shell mkcert -CAROOT)/rootCA-key.pem root
+
+db-cockroachdb-init:
+	@( \
+	printf "Enter pass for db: "; read -rs DB_PASSWORD && \
+	printf "\nEnter environment suffix(_dev, _local...): "; read DB_SUFFIX &&\
+	sed \
+	-e "s/DB_PASSWORD/$$DB_PASSWORD/g" \
+	-e "s/DB_SUFFIX/$$DB_SUFFIX/g" \
+	./sql/init/init.sql > ./sql/crdb-certs/init.sed.sql | \
+	cockroach sql --certs-dir=./sql/crdb-certs -f ./sql/crdb-certs/init.sed.sql \
+	)
 
 ########
 # sqlc #
