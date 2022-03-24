@@ -59,7 +59,7 @@ upgrade:
 # db #
 ######
 
-db-init: 
+db-pg-init: 
 	@(printf "Enter pass for db: "; read -rs DB_PASSWORD && \
 	printf "\nEnter environment suffix(_dev, _local...): "; read DB_SUFFIX &&\
 	sed \

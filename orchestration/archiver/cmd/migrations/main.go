@@ -2,16 +2,14 @@ package main
 
 import (
 	"archiver/pkg/configuration"
-	"database/sql"
 	"errors"
 	"fmt"
 	"log"
 	"os"
 
 	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -32,26 +30,14 @@ func main() {
 		log.Printf("getConfig: %v", err)
 	}
 
-	db, err := sql.Open(
-		"postgres",
+	m, err := migrate.New(
+		"file://./sql/migrations",
 		fmt.Sprintf(
 			"postgres://%s:%s@%s:%d/%s?sslmode=%s",
 			cfg.Database.Username, cfg.Database.Password,
 			cfg.Database.Host, cfg.Database.Port, cfg.Database.DatabaseName, cfg.Database.SSLMode,
 		),
 	)
-	if err != nil {
-		log.Fatalf("db connection: %v", err)
-	}
-
-	driver, err := postgres.WithInstance(db, &postgres.Config{})
-	if err != nil {
-		log.Fatalf("db driver: %v", err)
-	}
-
-	m, err := migrate.NewWithDatabaseInstance(
-		"file://./sql/migrations",
-		"postgres", driver)
 	if err != nil {
 		log.Fatalf("migration: %v", err)
 	}
