@@ -2,7 +2,6 @@
 benchmarks/
 target/
 deploy/
-docs/
 Dockerfile
 Makefile
 profiling.sh
