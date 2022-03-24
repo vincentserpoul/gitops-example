@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.1.0] - 2022-03-24
+
+### Bug Fixes
+
+- Benchmark default port to 3003 default config
+- Remove /docs from .dockerignore
+
+### Documentation
+
+- Update makefile info for deploy
+- Add cockroachdb scripts
+
+### Features
+
+- Enable swagger
+
+### Miscellaneous Tasks
+
+- Go mod tidy
+- Update deps
+
+### Performance
+
+- Move to pgx instead of sql
+- Move to cockroachdb
+- Bench
+- Bench
+
+### Refactor
+
+- Merge db config, as it should be done with pgbouncer or pgcat
+- Migration simplified
+
+### Styling
+
+- Remove bad linter comment
+
 ## [archiver-v1.0.20] - 2022-03-22
 
 ### Performance
