@@ -8,7 +8,7 @@ export let errorRate = new Rate("errors");
 export default function () {
   const environment = `${__ENV.APP_ENVIRONMENT}`;
 
-  var url = "http://localhost:3001/v1/happycatfact";
+  var url = "http://localhost:3003/v1/happycatfact";
   if(environment == "dev"){
     url = "https://archiver.orchestration.dev:8443/v1/happycatfact";
   }
