@@ -3,6 +3,8 @@
 PROJECT_NAME?=orchestration
 APP_NAME?=archiver
 
+CAROOT=$(shell mkcert -CAROOT)
+
 ########
 # test #
 ########
@@ -72,10 +74,10 @@ db-pg-init:
 
 db-cockroachdb-rootkey:
 	mkdir ./sql/crdb-certs && \
-	kubectl cp cockroachdb/cockroachdb-0:/cockroach/cockroach-certs/ca.crt ./sql/crdb-certs/ca.crt && \
+	kubectl cp cockroachdb/cockroachdb-0:cockroach-certs/ca.crt ./sql/crdb-certs/ca.crt -c db && \
 	cockroach cert create-client \
 		--certs-dir=./sql/crdb-certs \
-		--ca-key=$(shell mkcert -CAROOT)/rootCA-key.pem root
+		--ca-key=$(CAROOT)/rootCA-key.pem root
 
 db-cockroachdb-init:
 	@( \
@@ -84,8 +86,9 @@ db-cockroachdb-init:
 	sed \
 	-e "s/DB_PASSWORD/$$DB_PASSWORD/g" \
 	-e "s/DB_SUFFIX/$$DB_SUFFIX/g" \
-	./sql/init/init.sql > ./sql/crdb-certs/init.sed.sql | \
-	cockroach sql --certs-dir=./sql/crdb-certs -f ./sql/crdb-certs/init.sed.sql \
+	./sql/init/init.sql > ./sql/crdb-certs/init.sed.sql && \
+	cockroach sql --certs-dir=./sql/crdb-certs -f ./sql/crdb-certs/init.sed.sql && \
+	rm ./sql/crdb-certs/init.sed.sql \
 	)
 
 ########
