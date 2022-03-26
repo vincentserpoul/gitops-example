@@ -7,7 +7,7 @@ application:
 database:
     host: "127.0.0.1"
     port: 26257
-    username: "archiver_write"
+    username: "archiver_app"
     password: "yourpass"
     databasename: "archiver"
     sslmode: "require"
