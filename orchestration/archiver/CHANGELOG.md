@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.1.2] - 2022-03-26
+
+### Documentation
+
+- Update TODO in README.md
+
+### Features
+
+- Add crdb init
+
+### Refactor
+
+- Remove read/write users
+
 ## [archiver-v1.1.0] - 2022-03-24
 
 ### Bug Fixes
