@@ -28,7 +28,7 @@ bench-compare:
 ########
 
 lint:
-	golangci-lint run ./...
+	golangci-lint run ./... --config=./.golangci.toml
 
 #########
 # build #

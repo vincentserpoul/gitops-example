@@ -36,7 +36,7 @@ enable = [
     "goimports",
     # "golint",
     "gomnd",
-    "gomoddirectives",
+    # "gomoddirectives",
     "gomodguard",
     "goprintffuncname",
     "gosec",
