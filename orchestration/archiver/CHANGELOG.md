@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.1.5] - 2022-03-28
+
+### Features
+
+- Add sample rate in ingress and default backend
+
 ## [archiver-v1.1.3] - 2022-03-28
 
 ### Performance
