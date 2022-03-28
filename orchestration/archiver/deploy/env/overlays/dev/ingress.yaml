@@ -5,3 +5,4 @@ metadata:
   namespace: PROJECT_NAME
   annotations:
     cert-manager.io/cluster-issuer: "mkcert-cluster-issuer"
+    jaeger-sampler-param: 0.5
