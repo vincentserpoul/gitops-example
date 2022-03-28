@@ -149,6 +149,11 @@ metadata:
   name: archiver
   namespace: orchestration
 spec:
+  defaultBackend:
+    service:
+      name: archiver
+      port:
+        number: 3000
   rules:
   - host: archiver.orchestration.dev
     http:
