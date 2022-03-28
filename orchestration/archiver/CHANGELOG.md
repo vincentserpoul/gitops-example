@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.1.3] - 2022-03-28
+
+### Performance
+
+- Use parent sampler to make sure we don't sample 100% all the time, but just when the serv is reached directly
+
 ## [archiver-v1.1.2] - 2022-03-26
 
 ### Documentation
