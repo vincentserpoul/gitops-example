@@ -1,6 +1,4 @@
 ARG GO_VERSION=1.18.0
-ARG CommitTime=$(TZ=UTC git log -n1 --format='%cd' --date='format-local:%Y-%m-%dT%H:%M:%S')
-ARG CommitHash=$(git describe | cut -d- -f3)
 
 # Build
 FROM golang:${GO_VERSION} AS build
@@ -20,11 +18,10 @@ RUN go mod download
 
 COPY ./ ./
 
-ENV FLAG="-X main.CommitTime=$CommitTime"
-
-ENV FLAG="$FLAG -X main.CommitHash=$CommitHash"
-
-ENV FLAG="$FLAG -X main.GoVersion=$GO_VERSION"
+ARG LAST_MAIN_COMMIT_HASH
+ARG LAST_MAIN_COMMIT_TIME
+ENV FLAG="-X main.CommitTime=${LAST_MAIN_COMMIT_TIME}"
+ENV FLAG="$FLAG -X main.CommitHash=${LAST_MAIN_COMMIT_HASH}"
 
 RUN CGO_ENABLED=0 go build \
     -installsuffix 'static' \

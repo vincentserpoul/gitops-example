@@ -4,6 +4,8 @@ PROJECT_NAME?=orchestration
 APP_NAME?=archiver
 
 CAROOT=$(shell mkcert -CAROOT)
+LAST_MAIN_COMMIT_HASH=$(shell git rev-parse --short HEAD)
+LAST_MAIN_COMMIT_TIME=$(shell TZ=UTC git log main -n1 --format='%cd' --date='format-local:%Y-%m-%dT%H:%M:%S')
 
 ########
 # test #
@@ -39,7 +41,11 @@ build: lint test bench docker-build
 
 docker-build:
 	docker pull gcr.io/distroless/static && \
-	docker build -t $(APP_NAME) ./
+	docker build \
+		-t $(APP_NAME) \
+		--build-arg LAST_MAIN_COMMIT_HASH=$(LAST_MAIN_COMMIT_HASH) \
+		--build-arg LAST_MAIN_COMMIT_TIME=$(LAST_MAIN_COMMIT_TIME) \
+		./
 
 #######
 # sec #
