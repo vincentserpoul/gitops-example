@@ -1,5 +1,5 @@
 ARG GO_VERSION=1.18.0
-ARG BUILD_TIME=$(date +"%Y%m%d.%H%M%S")
+ARG CommitTime=$(TZ=UTC git log -n1 --format='%cd' --date='format-local:%Y-%m-%dT%H:%M:%S')
 ARG CommitHash=$(git describe | cut -d- -f3)
 
 # Build
@@ -20,27 +20,27 @@ RUN go mod download
 
 COPY ./ ./
 
-ENV FLAG="-X $TRG_PKG.BuildTime=$BUILD_TIME"
+ENV FLAG="-X main.CommitTime=$CommitTime"
 
-ENV FLAG="$FLAG -X $TRG_PKG.CommitHash=$CommitHash"
+ENV FLAG="$FLAG -X main.CommitHash=$CommitHash"
 
-ENV FLAG="$FLAG -X $TRG_PKG.GoVersion=$GO_VERSION"
+ENV FLAG="$FLAG -X main.GoVersion=$GO_VERSION"
 
 RUN CGO_ENABLED=0 go build \
     -installsuffix 'static' \
-    -ldflags "$FLAG" \
+    -ldflags "-s -w $FLAG" \
     -o /app ./cmd/serve/*.go
 
 RUN CGO_ENABLED=0 go build \
     -installsuffix 'static' \
-    -ldflags "$FLAG" \    
+    -ldflags "-s -w $FLAG" \    
     -o /migrations ./cmd/migrations/*.go
 
 RUN strip --strip-unneeded /app
-RUN upx /app
+RUN upx /app --best --lzma
 
 RUN strip --strip-unneeded /migrations
-RUN upx /migrations
+RUN upx /migrations --best --lzma
 
 # Final
 FROM gcr.io/distroless/static AS final

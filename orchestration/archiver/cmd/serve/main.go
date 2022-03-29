@@ -154,7 +154,7 @@ func buildInfo() *BuildInfo {
 
 	var bi BuildInfo
 
-	fmt.Printf("Build Info: %v", info.Settings)
+	fmt.Printf("Build Info: %v", info)
 
 	for _, kv := range info.Settings {
 		switch kv.Key {
