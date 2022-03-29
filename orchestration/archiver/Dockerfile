@@ -26,6 +26,7 @@ ENV FLAG="$FLAG -X main.CommitHash=${LAST_MAIN_COMMIT_HASH}"
 RUN CGO_ENABLED=0 go build \
     -installsuffix 'static' \
     -ldflags "-s -w $FLAG" \
+    -buildvcs=true \
     -o /app ./cmd/serve/*.go
 
 RUN CGO_ENABLED=0 go build \

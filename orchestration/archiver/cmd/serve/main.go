@@ -12,8 +12,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"runtime/debug"
-	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/riandyrn/otelchi"
@@ -35,15 +33,6 @@ import (
 // @host archiver.orchestration.dev
 // @BasePath /v1
 func main() {
-	bi := buildInfo()
-	if bi == nil {
-		log.Printf("failed to read build info")
-
-		return
-	}
-
-	log.Printf("version: %v", bi)
-
 	// configuration
 	currEnv := "local"
 	if e := os.Getenv("APP_ENVIRONMENT"); e != "" {
@@ -138,34 +127,4 @@ func chiNamedURLParamsGetter(ctx context.Context, key string) (string, *handlerh
 	}
 
 	return v, nil
-}
-
-type BuildInfo struct {
-	Revision   string
-	LastCommit time.Time
-	DirtyBuild bool
-}
-
-func buildInfo() *BuildInfo {
-	info, ok := debug.ReadBuildInfo()
-	if !ok {
-		return nil
-	}
-
-	var bi BuildInfo
-
-	fmt.Printf("Build Info: %v", info)
-
-	for _, kv := range info.Settings {
-		switch kv.Key {
-		case "vcs.revision":
-			bi.Revision = kv.Value
-		case "vcs.time":
-			bi.LastCommit, _ = time.Parse(time.RFC3339, kv.Value)
-		case "vcs.modified":
-			bi.DirtyBuild = kv.Value == "true"
-		}
-	}
-
-	return &bi
 }
