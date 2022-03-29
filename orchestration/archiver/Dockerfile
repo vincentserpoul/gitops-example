@@ -1,4 +1,6 @@
 ARG GO_VERSION=1.18.0
+ARG BUILD_TIME=$(date +"%Y%m%d.%H%M%S")
+ARG CommitHash=$(git describe | cut -d- -f3)
 
 # Build
 FROM golang:${GO_VERSION} AS build
@@ -18,12 +20,20 @@ RUN go mod download
 
 COPY ./ ./
 
+ENV FLAG="-X $TRG_PKG.BuildTime=$BUILD_TIME"
+
+ENV FLAG="$FLAG -X $TRG_PKG.CommitHash=$CommitHash"
+
+ENV FLAG="$FLAG -X $TRG_PKG.GoVersion=$GO_VERSION"
+
 RUN CGO_ENABLED=0 go build \
     -installsuffix 'static' \
+    -ldflags "$FLAG" \
     -o /app ./cmd/serve/*.go
 
 RUN CGO_ENABLED=0 go build \
     -installsuffix 'static' \
+    -ldflags "$FLAG" \    
     -o /migrations ./cmd/migrations/*.go
 
 RUN strip --strip-unneeded /app
