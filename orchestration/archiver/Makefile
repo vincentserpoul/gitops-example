@@ -52,7 +52,8 @@ docker-build:
 #######
 
 sec-scan:
-	trivy fs ./
+	trivy fs ./ && \
+	trivy image $(APP_NAME):latest
 
 ############
 # upgrades #
