@@ -90,11 +90,12 @@ db-cockroachdb-init:
 	@( \
 	printf "Enter pass for db: "; read -rs DB_PASSWORD && \
 	printf "\nEnter environment suffix(_dev, _local...): "; read DB_SUFFIX &&\
+	printf "\nEnter port(26257...): "; read DB_PORT &&\
 	sed \
 	-e "s/DB_PASSWORD/$$DB_PASSWORD/g" \
 	-e "s/DB_SUFFIX/$$DB_SUFFIX/g" \
 	./sql/init/init.sql > ./sql/crdb-certs/init.sed.sql && \
-	cockroach sql --certs-dir=./sql/crdb-certs -f ./sql/crdb-certs/init.sed.sql && \
+	cockroach sql --certs-dir=./sql/crdb-certs -f ./sql/crdb-certs/init.sed.sql -p $$DB_PORT && \
 	rm ./sql/crdb-certs/init.sed.sql \
 	)
 
