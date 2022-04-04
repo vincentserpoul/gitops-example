@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.1.12] - 2022-04-04
+
+### Documentation
+
+- Makefile printf correction
+
+### Performance
+
+- Always sample trace
+
 ## [archiver-v1.1.11] - 2022-04-04
 
 ### Features
