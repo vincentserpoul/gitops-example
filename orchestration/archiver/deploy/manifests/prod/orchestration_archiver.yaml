@@ -57,7 +57,7 @@ metadata:
     linkerd.io/inject: enabled
   labels:
     app: archiver
-  name: archiver-archiver-v1.1.14
+  name: archiver
   namespace: orchestration
 spec:
   replicas: 10
@@ -106,7 +106,7 @@ kind: Job
 metadata:
   labels:
     app: archiver
-  name: archiver-v1.1.14-migrations
+  name: archiver-archiver-v1.1.14-migrations
   namespace: orchestration
 spec:
   backoffLimit: 1
