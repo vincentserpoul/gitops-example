@@ -2,6 +2,63 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.1.11] - 2022-04-04
+
+### Features
+
+- Prod deploy
+- New manifest prod
+- Add prod run bench
+
+### Performance
+
+- Add more replicas in prod
+
+### Sec
+
+- Dep upg
+
+## [archiver-v1.1.10] - 2022-04-04
+
+### Features
+
+- Add commit time and commit hash to build
+- Add port for crdb migration
+
+### Sec
+
+- Add image sec scan
+
+## [archiver-v1.1.9] - 2022-03-29
+
+### Debug
+
+- Dockerfile with build args
+
+## [archiver-v1.1.8] - 2022-03-29
+
+### Debug
+
+- Add dump of buildinfo
+
+## [archiver-v1.1.7] - 2022-03-29
+
+### Bug Fixes
+
+- Better init sql
+
+### Features
+
+- Add build flags
+
+### Performance
+
+- Add upx and strip to reduce image size
+
+### Styling
+
+- Golangci-lint fix for go workspace
+
 ## [archiver-v1.1.5] - 2022-03-28
 
 ### Features
