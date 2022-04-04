@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.1.14] - 2022-04-04
+
+### Bug Fixes
+
+- Sample trace parent
+
 ## [archiver-v1.1.12] - 2022-04-04
 
 ### Documentation
