@@ -57,7 +57,7 @@ metadata:
     linkerd.io/inject: enabled
   labels:
     app: archiver
-  name: archiver
+  name: archiver-archiver-v1.1.14
   namespace: orchestration
 spec:
   replicas: 10
@@ -76,7 +76,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: prod
-        image: registry.digitalocean.com/gitops/archiver:archiver-v1.1.12
+        image: registry.digitalocean.com/gitops/archiver:archiver-v1.1.14
         livenessProbe:
           httpGet:
             path: /healthz
@@ -96,7 +96,7 @@ spec:
       initContainers:
       - args:
         - job
-        - archiver-archiver-v1.1.12-migrations
+        - archiver-archiver-v1.1.14-migrations
         - -n orchestration
         image: groundnuty/k8s-wait-for:v1.5.1
         name: wait-for-archiver-migrations
@@ -106,7 +106,7 @@ kind: Job
 metadata:
   labels:
     app: archiver
-  name: archiver-archiver-v1.1.12-migrations
+  name: archiver-v1.1.14-migrations
   namespace: orchestration
 spec:
   backoffLimit: 1
@@ -121,7 +121,7 @@ spec:
         env:
         - name: APP_ENVIRONMENT
           value: prod
-        image: registry.digitalocean.com/gitops/archiver:archiver-v1.1.12
+        image: registry.digitalocean.com/gitops/archiver:archiver-v1.1.14
         name: archiver-migrations
         resources:
           limits:
