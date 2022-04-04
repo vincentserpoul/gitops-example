@@ -37,7 +37,7 @@ lint:
 #########
 
 build: lint test bench docker-build 
-	@printf "\nyou can now create a release:\ncd deploy\nmake release\n"
+	@printf "\nyou can now deploy to your env of choice:\ncd deploy\nENV=dev make deploy-latest\n"
 
 docker-build:
 	docker pull gcr.io/distroless/static && \
