@@ -6,12 +6,15 @@ import { Rate } from "k6/metrics";
 export let errorRate = new Rate("errors");
 
 export default function () {
-  const environment = `${__ENV.APP_ENVIRONMENT}`;
+  const environment = `${__ENV.ENV}`;
 
   var url = "http://localhost:3003/v1/happycatfact";
   if(environment == "dev"){
     url = "https://archiver.orchestration.dev:8443/v1/happycatfact";
+  } else if(environment == "prod"){
+    url = "https://archiver.do-gitops.tk/v1/happycatfact";
   }
+
 
   var params = {
     headers: {
