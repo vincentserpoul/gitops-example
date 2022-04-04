@@ -76,7 +76,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: prod
-        image: registry.digitalocean.com/gitops/archiver:archiver-v1.1.11
+        image: registry.digitalocean.com/gitops/archiver:archiver-v1.1.12
         livenessProbe:
           httpGet:
             path: /healthz
@@ -96,7 +96,7 @@ spec:
       initContainers:
       - args:
         - job
-        - archiver-archiver-v1.1.11-migrations
+        - archiver-archiver-v1.1.12-migrations
         - -n orchestration
         image: groundnuty/k8s-wait-for:v1.5.1
         name: wait-for-archiver-migrations
@@ -106,7 +106,7 @@ kind: Job
 metadata:
   labels:
     app: archiver
-  name: archiver-archiver-v1.1.11-migrations
+  name: archiver-archiver-v1.1.12-migrations
   namespace: orchestration
 spec:
   backoffLimit: 1
@@ -121,7 +121,7 @@ spec:
         env:
         - name: APP_ENVIRONMENT
           value: prod
-        image: registry.digitalocean.com/gitops/archiver:archiver-v1.1.11
+        image: registry.digitalocean.com/gitops/archiver:archiver-v1.1.12
         name: archiver-migrations
         resources:
           limits:
