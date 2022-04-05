@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.1.15] - 2022-04-05
+
+### Bug Fixes
+
+- Remove wrong jaeger host
+
+### Miscellaneous Tasks
+
+- Up deps
+
+### Performance
+
+- Reduce sample param for traces
+- Increase concurrent users
+
 ## [archiver-v1.1.14] - 2022-04-04
 
 ### Bug Fixes
