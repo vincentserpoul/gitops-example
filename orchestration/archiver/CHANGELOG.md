@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.1.17] - 2022-04-05
+
+### Features
+
+- Add hpa
+
+### Performance
+
+- Add a horizontal pod autoscaler
+
 ## [archiver-v1.1.16] - 2022-04-05
 
 ### Documentation
