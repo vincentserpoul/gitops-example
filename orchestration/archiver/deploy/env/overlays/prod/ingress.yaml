@@ -5,4 +5,3 @@ metadata:
   namespace: PROJECT_NAME
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    jaeger-sampler-param: 0.1
