@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.1.16] - 2022-04-05
+
+### Documentation
+
+- Improve prompt for crdb init
+
+### Performance
+
+- Default to sample 0.1
+
+### Testing
+
+- Always sample
+
 ## [archiver-v1.1.15] - 2022-04-05
 
 ### Bug Fixes
