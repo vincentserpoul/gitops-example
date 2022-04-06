@@ -3,18 +3,18 @@ goos: linux
 goarch: amd64
 pkg: archiver/pkg/handler/http
 cpu: Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
-BenchmarkHTTPWrapper-8   	 5071687	       228.0 ns/op	     139 B/op	       1 allocs/op
+BenchmarkHTTPWrapper-8   	 4510046	       234.4 ns/op	     153 B/op	       1 allocs/op
 PASS
-ok  	archiver/pkg/handler/http	1.406s
+ok  	archiver/pkg/handler/http	1.337s
 goos: linux
 goarch: amd64
 pkg: archiver/pkg/happycat/http
 cpu: Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
-Benchmark_createHandler-8   	  642778	      1940 ns/op	     937 B/op	       7 allocs/op
-Benchmark_getHandler-8      	 8514106	       133.3 ns/op	      72 B/op	       2 allocs/op
-Benchmark_listHandler-8     	21141796	        53.08 ns/op	      48 B/op	       2 allocs/op
+Benchmark_createHandler-8   	  604131	      1978 ns/op	     946 B/op	       7 allocs/op
+Benchmark_getHandler-8      	 8405324	       134.6 ns/op	      72 B/op	       2 allocs/op
+Benchmark_listHandler-8     	20994616	        52.37 ns/op	      48 B/op	       2 allocs/op
 PASS
-ok  	archiver/pkg/happycat/http	16.400s
+ok  	archiver/pkg/happycat/http	15.442s
 ?   	archiver/pkg/internal/db	[no test files]
 ?   	archiver/pkg/observability	[no test files]
 ?   	archiver/pkg/postgres	[no test files]
