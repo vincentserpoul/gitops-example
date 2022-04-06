@@ -33,6 +33,9 @@ import (
 // @host archiver.orchestration.dev
 // @BasePath /v1
 func main() {
+	// context
+	ctx := context.Background()
+
 	// configuration
 	currEnv := "local"
 	if e := os.Getenv("APP_ENVIRONMENT"); e != "" {
@@ -57,6 +60,7 @@ func main() {
 
 	// observability
 	shutdown, err := observability.InitProvider(
+		ctx,
 		"orchestration-archiver",
 		fmt.Sprintf(
 			"%s:%d",
@@ -77,8 +81,6 @@ func main() {
 	}()
 
 	// querier
-	ctx := context.Background()
-
 	dbConn, q, err := postgres.New(ctx, &cfg.Database)
 	if err != nil {
 		log.Warn().Err(err).Msg("postgres")
