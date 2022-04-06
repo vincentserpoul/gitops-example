@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [archiver-v1.1.18] - 2022-04-06
+
+### Bug Fixes
+
+- Improve Dockerfile
+
+### Features
+
+- Use main context for tracing
+
+### Miscellaneous Tasks
+
+- Dep upgrade
+
+### Styling
+
+- Use tracing client to be more flex
+
 ## [archiver-v1.1.17] - 2022-04-05
 
 ### Features
