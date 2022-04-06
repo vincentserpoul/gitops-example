@@ -76,7 +76,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: dev
-        image: registry4gitops.localhost:56789/archiver:archiver-v1.1.17
+        image: registry4gitops.localhost:56789/archiver:archiver-v1.1.18
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -97,7 +97,7 @@ spec:
       initContainers:
       - args:
         - job
-        - archiver-archiver-v1.1.17-migrations
+        - archiver-archiver-v1.1.18-migrations
         - -n orchestration
         image: groundnuty/k8s-wait-for:v1.5.1
         name: wait-for-archiver-migrations
@@ -123,7 +123,7 @@ kind: Job
 metadata:
   labels:
     app: archiver
-  name: archiver-archiver-v1.1.17-migrations
+  name: archiver-archiver-v1.1.18-migrations
   namespace: orchestration
 spec:
   backoffLimit: 1
@@ -138,7 +138,7 @@ spec:
         env:
         - name: APP_ENVIRONMENT
           value: dev
-        image: registry4gitops.localhost:56789/archiver:archiver-v1.1.17
+        image: registry4gitops.localhost:56789/archiver:archiver-v1.1.18
         name: archiver-migrations
         resources:
           limits:
