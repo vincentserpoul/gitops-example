@@ -1,4 +1,4 @@
-.PHONY: deploy-latest context-select image-tag image-push manifest-kustomize-build manifests-apply release-commit
+.PHONY: deploy-latest apply-latest context-select image-tag image-push manifest-kustomize-build manifests-apply release-commit
 
 ENV?=dev
 
@@ -7,20 +7,17 @@ include env/overlays/$(ENV)/$(ENV).env
 
 export
 
+APP_VERSION = $(shell git describe --abbrev=0 --tags --match "$(APP_NAME)*")
 IMAGE_NAME = $(CONTAINER_REGISTRY_URL)$(APP_NAME):$(APP_VERSION)
 APP_TLS_SECRET = $(shell echo $(APP_DOMAIN) | tr "." "-")
 
-deploy-latest: context-select image-tag image-push manifest-kustomize-build manifest-apply
+deploy-latest: release-tag context-select image-tag image-push apply-latest release-post-deploy
 
-# deploy-latest: context-select image-tag image-push manifest-kustomize-build manifest-apply release-commit
-
+apply-latest: manifest-kustomize-build manifest-apply
 
 ###########
 # HELPERS #
 ###########
-
-release-commit:
-	git commit -m "manifest build and deploy $(IMAGE_NAME) to $(ENV)" ./manifests/*
 
 context-select:
 	kubectl config use-context $(K8S_CONTEXT)
@@ -61,3 +58,37 @@ image-push:
 	else \
 		docker push $(IMAGE_NAME); \
 	fi
+
+###########
+# release #
+###########
+
+release-post-deploy: release-commit release-deploy-retag changelog-gen changelog-commit
+
+release-tag:
+	@printf "here is the latest tag present: "; \
+	git describe --abbrev=0 --tags --match "$(APP_NAME)*"; \
+	printf "what tag do you want to give? (use the form $(APP_NAME)-vX.X.X): "; \
+	read -r TAG && \
+	git tag $$TAG; \
+	printf "\nrelease tagged!"
+
+release-deploy-retag:
+	@git tag -f $(APP_VERSION)
+
+release-commit:
+	git commit -m "chore (release): deployed $(APP_NAME):$(APP_VERSION) to $(ENV)" ./manifests/*
+
+#############
+# changelog #
+#############
+
+MESSAGE_CHANGELOG_COMMIT=$(shell echo "update CHANGELOG.md for $(APP_NAME):$(APP_VERSION)")
+
+changelog-gen:
+	@git cliff -c ../cliff.toml -o ../CHANGELOG.md --include-path "**/$(APP_NAME)/*" --repository ../../../; \
+	printf "changelog generated!\n"
+
+# keep this commit unconventional so it doesnt appear in the changelog
+changelog-commit:
+	git commit -m "$(MESSAGE_CHANGELOG_COMMIT)" ../CHANGELOG.md

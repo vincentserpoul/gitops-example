@@ -28,7 +28,7 @@ metadata:
   name: gohttp
   namespace: simple
 spec:
-  replicas: 1
+  replicas: 10
   selector:
     matchLabels:
       app: gohttp
@@ -43,9 +43,8 @@ spec:
       containers:
       - env:
         - name: APP_ENVIRONMENT
-          value: dev
-        image: registry4gitops.localhost:56789/gohttp:gohttp-v1.0.0
-        imagePullPolicy: Always
+          value: prod
+        image: registry.digitalocean.com/gitops/gohttp:gohttp-v1.0.0
         livenessProbe:
           httpGet:
             path: /healthz
@@ -72,7 +71,7 @@ metadata:
   namespace: simple
 spec:
   maxReplicas: 11
-  minReplicas: 1
+  minReplicas: 3
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
@@ -83,10 +82,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    cert-manager.io/cluster-issuer: mkcert-cluster-issuer
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     enable-opentracing: "true"
     jaeger-collector-host: opentelemetry-collector.observability
-    jaeger-sampler-param: "1"
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
@@ -101,7 +99,7 @@ spec:
       port:
         number: 3000
   rules:
-  - host: gohttp.simple.dev
+  - host: simple-gohttp.do-gitops.tk
     http:
       paths:
       - backend:
@@ -113,5 +111,5 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - gohttp.simple.dev
-    secretName: gohttp-simple-dev
+    - simple-gohttp.do-gitops.tk
+    secretName: simple-gohttp-do-gitops-tk

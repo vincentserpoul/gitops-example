@@ -1,10 +1,13 @@
 .dockerignore
+benchmarks/
 target/
 deploy/
+sql/crdb-certs
 Dockerfile
-benchmarks/
 Makefile
 profiling.sh
 .golangci.toml
 deploy/
 cliff.toml
+bench.txt
+*.sed.sql

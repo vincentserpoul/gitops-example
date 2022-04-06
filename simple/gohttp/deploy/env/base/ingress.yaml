@@ -7,15 +7,27 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/enable-opentracing: "true"
-    jaeger-collector-host: observability-opentelemetry-collector.observability
+    enable-opentracing: "true"
+    jaeger-collector-host: opentelemetry-collector.observability
 spec:
-  tls:
-    - hosts:
-        - APP_DOMAIN
-      secretName: APP_TLS_SECRET
   defaultBackend:
     service:
       name: APP_NAME
       port:
-        number: APP_PORT                 
+        number: APP_PORT
+  tls:
+    - hosts:
+        - APP_DOMAIN
+      secretName: APP_TLS_SECRET
+  rules:
+    - host: APP_DOMAIN
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: APP_NAME
+              port:
+                number: APP_PORT           
+               

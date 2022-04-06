@@ -4,5 +4,4 @@ metadata:
   name: APP_NAME
   namespace: PROJECT_NAME
   annotations:
-    cert-manager.io/cluster-issuer: "mkcert-cluster-issuer"
-    jaeger-sampler-param: 1
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"

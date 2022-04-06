@@ -1,5 +1,5 @@
 [service]
-golangci-lint-version =  "1.44.0"
+golangci-lint-version =  "1.45"
 
 [linters]
 disable-all = true
@@ -15,19 +15,19 @@ enable = [
     "errcheck",
     "errorlint",
     "exhaustive",
-    "exhaustivestruct",
+    # "exhaustivestruct",
     "exportloopref",
     # "forbidigo",
     "forcetypeassert",
     # "funlen",
-    "gci",
+    # "gci",
     "gochecknoglobals",
     "gochecknoinits",
     "gocognit",
     "goconst",
     "gocritic",
     "gocyclo",
-    "godot",
+    # "godot",
     "godox",
     "goerr113",
     "gofmt",
@@ -36,7 +36,7 @@ enable = [
     "goimports",
     # "golint",
     "gomnd",
-    "gomoddirectives",
+    # "gomoddirectives",
     "gomodguard",
     "goprintffuncname",
     "gosec",
@@ -88,6 +88,13 @@ enable = [
     "tenv",
     # "testpackage",
     # "varnamelen",
-
 ]
 
+[run]
+skip-dirs = [
+    "pkg/internal/db"
+]
+
+[[issues.exclude-rules]]
+path = '(.+)_test\.go'
+linters = ["funlen", "goconst", "interfacer", "dupl", "lll", "goerr113"]

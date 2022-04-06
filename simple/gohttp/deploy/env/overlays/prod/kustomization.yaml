@@ -7,4 +7,3 @@ resources:
 patchesStrategicMerge:
   - ingress.yaml
   - deployment.yaml
-  - hpa.yaml

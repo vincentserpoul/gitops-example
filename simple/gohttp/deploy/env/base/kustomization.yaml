@@ -8,6 +8,7 @@ commonLabels:
 
 resources:
   - deployment.yaml
+  - hpa.yaml
   - service.yaml
   - namespace.yaml
   - ingress.yaml
