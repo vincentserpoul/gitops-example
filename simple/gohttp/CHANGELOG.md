@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [gohttp-v1.0.5] - 2022-04-07
+
+### Features
+
+- Ingress ratelimiting traces
+
+### Performance
+
+- Increase hpa upper limit
+
 ## [gohttp-v1.0.3] - 2022-04-07
 
 ### Bug Fixes
