@@ -82,7 +82,6 @@ func main() {
 
 	// router
 	r := chi.NewRouter()
-	r.Use(otelchi.Middleware("chi", otelchi.WithChiRoutes(r)))
 
 	r.Get("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNoContent)
@@ -96,15 +95,16 @@ func main() {
 	docs.SwaggerInfo.Host = cfg.Application.URL.Host
 	docs.SwaggerInfo.Schemes = cfg.Application.URL.Schemes
 
-	r.Route("/"+version, func(r chi.Router) {
-		r.Get("/swagger/*", httpSwagger.Handler(
-			httpSwagger.URL(
-				fmt.Sprintf("%s/%s/%s/swagger/doc.json",
-					cfg.Application.URL.Schemes[0], cfg.Application.URL.Host, version,
-				),
+	r.Get("/"+version+"swagger/*", httpSwagger.Handler(
+		httpSwagger.URL(
+			fmt.Sprintf("%s/%s/%s/swagger/doc.json",
+				cfg.Application.URL.Schemes[0], cfg.Application.URL.Host, version,
 			),
-		))
+		),
+	))
 
+	r.Route("/"+version, func(r chi.Router) {
+		r.Use(otelchi.Middleware("chi", otelchi.WithChiRoutes(r)))
 		userhttp.AddRoutes(r, log.Logger, storage, chiNamedURLParamsGetter)
 	})
 
