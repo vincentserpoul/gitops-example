@@ -3,7 +3,6 @@ package http
 import (
 	"bytes"
 	"fmt"
-	handlerhttp "gohttp/pkg/handler/http"
 	"gohttp/pkg/user"
 	"net/http"
 	"net/http/httptest"
@@ -12,6 +11,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/induzo/httpwrapper"
 )
 
 func Test_createHandler(t *testing.T) {
@@ -24,13 +24,13 @@ func Test_createHandler(t *testing.T) {
 	tests := []struct {
 		name              string
 		payload           string
-		httpResponse      *handlerhttp.Response
-		httpErrorResponse *handlerhttp.ErrorResponse
+		httpResponse      *httpwrapper.Response
+		httpErrorResponse *httpwrapper.ErrorResponse
 	}{
 		{
 			name:    "happy path",
 			payload: fmt.Sprintf(`{"id": "%s","created_at": "%s"}`, id.String(), createdAt.Format(time.RFC3339)),
-			httpResponse: &handlerhttp.Response{
+			httpResponse: &httpwrapper.Response{
 				Body:           user.User{ID: id, CreatedAt: createdAt},
 				HTTPStatusCode: http.StatusCreated,
 			},
@@ -40,7 +40,7 @@ func Test_createHandler(t *testing.T) {
 			name:         "wrong formatted json",
 			payload:      "{",
 			httpResponse: nil,
-			httpErrorResponse: &handlerhttp.ErrorResponse{
+			httpErrorResponse: &httpwrapper.ErrorResponse{
 				Error:          nil,
 				ErrorCode:      "wrong",
 				HTTPStatusCode: http.StatusBadRequest,

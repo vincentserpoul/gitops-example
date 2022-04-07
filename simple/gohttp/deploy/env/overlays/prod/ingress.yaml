@@ -5,3 +5,4 @@ metadata:
   namespace: PROJECT_NAME
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/enable-access-log: "false"

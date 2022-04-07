@@ -2,7 +2,6 @@ package http
 
 import (
 	"context"
-	handlerhttp "gohttp/pkg/handler/http"
 	"gohttp/pkg/user"
 	"net/http"
 	"net/http/httptest"
@@ -11,13 +10,14 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/induzo/httpwrapper"
 )
 
 func Test_getHandler(t *testing.T) {
 	t.Parallel()
 
-	gnupGen := func(s string) func(context.Context, string) (string, *handlerhttp.ErrorResponse) {
-		return func(_ctx context.Context, key string) (string, *handlerhttp.ErrorResponse) {
+	gnupGen := func(s string) func(context.Context, string) (string, *httpwrapper.ErrorResponse) {
+		return func(_ctx context.Context, key string) (string, *httpwrapper.ErrorResponse) {
 			return s, nil
 		}
 	}
@@ -31,13 +31,13 @@ func Test_getHandler(t *testing.T) {
 	tests := []struct {
 		name              string
 		urlParam          string
-		httpResponse      *handlerhttp.Response
-		httpErrorResponse *handlerhttp.ErrorResponse
+		httpResponse      *httpwrapper.Response
+		httpErrorResponse *httpwrapper.ErrorResponse
 	}{
 		{
 			name:     "happy path",
 			urlParam: id.String(),
-			httpResponse: &handlerhttp.Response{
+			httpResponse: &httpwrapper.Response{
 				Body: &user.User{
 					ID:        id,
 					CreatedAt: createdAt,
@@ -50,7 +50,7 @@ func Test_getHandler(t *testing.T) {
 			name:         "not found with bad querier",
 			urlParam:     "6ba7b810-9dad-11d1-80b4-00c04fd430c8",
 			httpResponse: nil,
-			httpErrorResponse: &handlerhttp.ErrorResponse{
+			httpErrorResponse: &httpwrapper.ErrorResponse{
 				Error:          user.NoUserFoundError{},
 				HTTPStatusCode: http.StatusNotFound,
 				ErrorCode:      "no_user_found",
@@ -61,7 +61,7 @@ func Test_getHandler(t *testing.T) {
 			name:              "bad url param",
 			urlParam:          "wrong format",
 			httpResponse:      nil,
-			httpErrorResponse: handlerhttp.ParsingParamError{Name: "userID", Value: "wrong format"}.ToErrorResponse(),
+			httpErrorResponse: httpwrapper.ParsingParamError{Name: "userID", Value: "wrong format"}.ToErrorResponse(),
 		},
 	}
 
@@ -112,7 +112,7 @@ func Benchmark_getHandler(b *testing.B) {
 		func(
 			_ctx context.Context,
 			key string,
-		) (string, *handlerhttp.ErrorResponse) {
+		) (string, *httpwrapper.ErrorResponse) {
 			return id.String(), nil
 		},
 	)

@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"gohttp/docs"
 	"gohttp/pkg/configuration"
-	handlerhttp "gohttp/pkg/handler/http"
 	"gohttp/pkg/observability"
 	"gohttp/pkg/user"
 	userhttp "gohttp/pkg/user/http"
@@ -14,6 +13,8 @@ import (
 	"os"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	"github.com/induzo/httpwrapper"
 	"github.com/riandyrn/otelchi"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -83,6 +84,8 @@ func main() {
 	// router
 	r := chi.NewRouter()
 
+	r.Mount("/debug", middleware.Profiler())
+
 	r.Get("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNoContent)
 	})
@@ -116,10 +119,10 @@ func main() {
 	}
 }
 
-func chiNamedURLParamsGetter(ctx context.Context, key string) (string, *handlerhttp.ErrorResponse) {
+func chiNamedURLParamsGetter(ctx context.Context, key string) (string, *httpwrapper.ErrorResponse) {
 	v := chi.URLParamFromCtx(ctx, key)
 	if v == "" {
-		return "", handlerhttp.MissingParamError{Name: key}.ToErrorResponse()
+		return "", httpwrapper.MissingParamError{Name: key}.ToErrorResponse()
 	}
 
 	return v, nil

@@ -4,9 +4,9 @@ go 1.18
 
 require (
 	github.com/go-chi/chi/v5 v5.0.7
-	github.com/goccy/go-json v0.9.6
 	github.com/google/uuid v1.3.0
 	github.com/ilyakaznacheev/cleanenv v1.2.6
+	github.com/induzo/httpwrapper v0.0.3
 	github.com/riandyrn/otelchi v0.4.0
 	github.com/rs/zerolog v1.26.1
 	github.com/swaggo/http-swagger v1.2.5
@@ -32,6 +32,7 @@ require (
 	github.com/go-openapi/jsonreference v0.19.6 // indirect
 	github.com/go-openapi/spec v0.20.4 // indirect
 	github.com/go-openapi/swag v0.21.1 // indirect
+	github.com/goccy/go-json v0.9.6 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
