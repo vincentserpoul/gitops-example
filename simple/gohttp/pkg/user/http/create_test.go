@@ -18,7 +18,7 @@ func Test_createHandler(t *testing.T) {
 	t.Parallel()
 
 	id := uuid.New()
-	createdAt, _ := time.Parse(time.RFC3339, "2022-04-06 03:18:36 +0000 UTC")
+	createdAt, _ := time.Parse(time.RFC3339, "2022-04-06T03:18:36+00:00")
 	storage := user.NewStorage()
 
 	tests := []struct {
