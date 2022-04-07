@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [gohttp-v1.0.3] - 2022-04-07
+
+### Bug Fixes
+
+- Use a rfc3339 date in the create test
+- Test create
+
+### Features
+
+- Use w3c as trace propag format for ingress
+
+### Performance
+
+- Increase cpu req in deployment to 500m
+
 ## [gohttp-v1.0.2] - 2022-04-07
 
 ### Bug Fixes
