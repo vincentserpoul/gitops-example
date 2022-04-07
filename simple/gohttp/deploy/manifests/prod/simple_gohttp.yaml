@@ -44,7 +44,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: prod
-        image: registry.digitalocean.com/gitops/gohttp:gohttp-v1.0.4
+        image: registry.digitalocean.com/gitops/gohttp:gohttp-v1.0.5
         livenessProbe:
           httpGet:
             path: /healthz
@@ -70,13 +70,13 @@ metadata:
   name: gohttp
   namespace: simple
 spec:
-  maxReplicas: 11
+  maxReplicas: 15
   minReplicas: 3
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: gohttp
-  targetCPUUtilizationPercentage: 75
+  targetCPUUtilizationPercentage: 50
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
