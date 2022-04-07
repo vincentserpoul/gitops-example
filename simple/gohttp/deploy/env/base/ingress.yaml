@@ -9,6 +9,7 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     enable-opentracing: "true"
     jaeger-collector-host: opentelemetry-collector.observability
+    jaeger-propagation-format: w3c
 spec:
   defaultBackend:
     service:
