@@ -2,7 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [gohttp-v1.0.2] - 2022-04-07
+
+### Bug Fixes
+
+- Upd obs version
+- Remove traces for swagger and health
+- Only trace with parent
+
+### Performance
+
+- Increase // users to 100
+
 ## [gohttp-v1.0.1] - 2022-04-06
+
+### Miscellaneous Tasks
+
+- Changelog gen
 
 ### Refactor
 
