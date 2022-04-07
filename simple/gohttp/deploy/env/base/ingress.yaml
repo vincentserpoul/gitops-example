@@ -10,6 +10,8 @@ metadata:
     enable-opentracing: "true"
     jaeger-collector-host: opentelemetry-collector.observability
     jaeger-propagation-format: w3c
+    jaeger-sampler-type: ratelimiting
+    jaeger-sampler-param: 50.0
 spec:
   defaultBackend:
     service:
