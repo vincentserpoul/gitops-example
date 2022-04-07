@@ -89,6 +89,7 @@ metadata:
     jaeger-sampler-param: "50.0"
     jaeger-sampler-type: ratelimiting
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-access-log: "false"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   labels:
