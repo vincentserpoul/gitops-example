@@ -34,7 +34,7 @@ RUN CGO_ENABLED=0 go build \
     -o /app ./cmd/serve/*.go
 
 # Final
-FROM gcr.io/distroless/static AS final
+FROM gcr.io/distroless/static:latest-amd64 AS final
 
 USER nonroot:nonroot
 

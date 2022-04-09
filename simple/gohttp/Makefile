@@ -40,7 +40,7 @@ build: lint test bench docker-build
 	@printf "\nyou can now deploy to your env of choice:\ncd deploy\nENV=dev make deploy-latest\n"
 
 docker-build:
-	docker pull gcr.io/distroless/static && \
+	docker pull gcr.io/distroless/static:latest-amd64 && \
 	docker build \
 		-t $(APP_NAME) \
 		--build-arg LAST_MAIN_COMMIT_HASH=$(LAST_MAIN_COMMIT_HASH) \
