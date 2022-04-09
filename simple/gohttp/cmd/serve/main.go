@@ -21,6 +21,13 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
+// filled at build time
+// nolint: gochecknoglobals
+var (
+	CommitTime = "dev"
+	CommitHash = "dev"
+)
+
 // @title Swagger gohttp API
 // @description This is a sample server db save service.
 
@@ -112,7 +119,11 @@ func main() {
 	})
 
 	// serve router
-	log.Info().Int("port", cfg.Application.Port).Msg("listening")
+	log.Info().
+		Int("port", cfg.Application.Port).
+		Str("commit time", CommitTime).
+		Str("commit hash", CommitHash).
+		Msg("listening")
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Application.Port), r); err != nil {
 		log.Warn().Err(err).Msg("")

@@ -5,7 +5,7 @@ APP_NAME?=gohttp
 
 CAROOT=$(shell mkcert -CAROOT)
 LAST_MAIN_COMMIT_HASH=$(shell git rev-parse --short HEAD)
-LAST_MAIN_COMMIT_TIME=$(shell TZ=UTC git log main -n1 --format='%cd' --date='format-local:%Y-%m-%dT%H:%M:%S')
+LAST_MAIN_COMMIT_TIME=$(shell git log main -n1 --format='%cd' --date='iso-strict')
 
 ########
 # test #
