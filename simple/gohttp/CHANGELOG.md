@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [gohttp-v1.0.7] - 2022-04-09
+
+### Documentation
+
+- Add var for commit time and commit hash
+
+### Performance
+
+- Bench
+
 ## [gohttp-v1.0.6] - 2022-04-09
 
 ### Miscellaneous Tasks
