@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [gohttp-v1.0.6] - 2022-04-09
+
+### Miscellaneous Tasks
+
+- Update deps
+
+### Refactor
+
+- Externalize httpwrapper
+
 ## [gohttp-v1.0.5] - 2022-04-07
 
 ### Features
