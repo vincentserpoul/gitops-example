@@ -1,18 +1,11 @@
 ?   	gohttp/pkg/configuration	[no test files]
-goos: linux
-goarch: amd64
-pkg: gohttp/pkg/handler/http
-cpu: Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
-BenchmarkHTTPWrapper-8   	 5102085	       230.5 ns/op	     138 B/op	       1 allocs/op
-PASS
-ok  	gohttp/pkg/handler/http	1.426s
 ?   	gohttp/pkg/observability	[no test files]
 ?   	gohttp/pkg/user	[no test files]
 goos: linux
 goarch: amd64
 pkg: gohttp/pkg/user/http
 cpu: Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
-Benchmark_createHandler-8   	  412106	      3118 ns/op	     999 B/op	      13 allocs/op
-Benchmark_getHandler-8      	 7230940	       146.1 ns/op	      72 B/op	       2 allocs/op
+Benchmark_createHandler-8   	  431258	      3561 ns/op	    1063 B/op	      13 allocs/op
+Benchmark_getHandler-8      	 7713183	       153.7 ns/op	      72 B/op	       2 allocs/op
 PASS
-ok  	gohttp/pkg/user/http	13.201s
+ok  	gohttp/pkg/user/http	14.859s
