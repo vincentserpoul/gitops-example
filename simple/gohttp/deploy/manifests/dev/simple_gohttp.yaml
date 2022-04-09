@@ -44,7 +44,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: dev
-        image: registry4gitops.localhost:56789/gohttp:gohttp-v1.0.5
+        image: registry4gitops.localhost:56789/gohttp:gohttp-v1.0.6
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -58,9 +58,9 @@ spec:
         resources:
           limits:
             cpu: "2"
-            memory: 512Mi
+            memory: 128Mi
           requests:
-            cpu: 250m
+            cpu: 500m
             memory: 16Mi
 ---
 apiVersion: autoscaling/v1
