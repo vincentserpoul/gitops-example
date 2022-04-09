@@ -44,7 +44,7 @@ spec:
       - env:
         - name: APP_ENVIRONMENT
           value: prod
-        image: registry.digitalocean.com/gitops/gohttp:gohttp-v1.0.5
+        image: registry.digitalocean.com/gitops/gohttp:gohttp-v1.0.6
         livenessProbe:
           httpGet:
             path: /healthz
