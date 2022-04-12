@@ -11,6 +11,7 @@ import (
 	userhttp "gohttp/pkg/user/http"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -26,6 +27,13 @@ import (
 var (
 	CommitTime = "dev"
 	CommitHash = "dev"
+)
+
+const (
+	readTimeout       = 5 * time.Second
+	readHeaderTimeout = 5 * time.Second
+	writeTimeout      = 5 * time.Second
+	idleTimeout       = 5 * time.Minute
 )
 
 // @title Swagger gohttp API
@@ -125,7 +133,16 @@ func main() {
 		Str("commit hash", CommitHash).
 		Msg("listening")
 
-	if err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Application.Port), r); err != nil {
+	srv := &http.Server{
+		Addr:              fmt.Sprintf(":%d", cfg.Application.Port),
+		ReadTimeout:       readTimeout,
+		WriteTimeout:      writeTimeout,
+		IdleTimeout:       idleTimeout,
+		ReadHeaderTimeout: readHeaderTimeout,
+		Handler:           r,
+	}
+
+	if err := srv.ListenAndServe(); err != nil {
 		log.Warn().Err(err).Msg("")
 	}
 }
