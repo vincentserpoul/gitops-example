@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/golang-migrate/migrate/v4"
-	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/database/cockroachdb"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
@@ -33,7 +33,7 @@ func main() {
 	m, err := migrate.New(
 		"file://./sql/migrations",
 		fmt.Sprintf(
-			"postgres://%s:%s@%s:%d/%s?sslmode=%s",
+			"cockroachdb://%s:%s@%s:%d/%s?sslmode=%s",
 			cfg.Database.Username, cfg.Database.Password,
 			cfg.Database.Host, cfg.Database.Port, cfg.Database.DatabaseName, cfg.Database.SSLMode,
 		),
