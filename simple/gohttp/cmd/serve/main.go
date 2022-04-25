@@ -6,12 +6,13 @@ import (
 	"fmt"
 	"gohttp/docs"
 	"gohttp/pkg/configuration"
-	"gohttp/pkg/observability"
 	"gohttp/pkg/user"
 	userhttp "gohttp/pkg/user/http"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/induzo/otelinit"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -71,24 +72,20 @@ func main() {
 		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	}
 
-	// observability
-	shutdown, err := observability.InitProvider(
+	pvd, err := otelinit.NewProvider(
 		ctx,
 		"simple-gohttp",
-		fmt.Sprintf(
-			"%s:%d",
-			cfg.Observability.Collector.Host,
-			cfg.Observability.Collector.Port,
-		),
 	)
 	if err != nil {
-		log.Err(err).Msg("init provider")
+		log.Err(err).Msg("new provider")
 
 		return
 	}
 
+	pvd.Init()
+
 	defer func() {
-		if err := shutdown(); err != nil {
+		if err := pvd.Shutdown(); err != nil {
 			log.Warn().Err(err).Msg("shutdown")
 		}
 	}()
