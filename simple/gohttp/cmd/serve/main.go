@@ -72,20 +72,22 @@ func main() {
 		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	}
 
-	pvd, err := otelinit.NewProvider(
+	shutdown, err := otelinit.InitProvider(
 		ctx,
 		"simple-gohttp",
+		otelinit.WithGRPCTraceExporter(
+			ctx,
+			fmt.Sprintf("%s:%d", cfg.Observability.Collector.Host, cfg.Observability.Collector.Port),
+		),
 	)
 	if err != nil {
-		log.Err(err).Msg("new provider")
+		log.Error().Err(err).Msg("failed to initialize opentelemetry")
 
 		return
 	}
 
-	pvd.Init()
-
 	defer func() {
-		if err := pvd.Shutdown(); err != nil {
+		if err := shutdown(); err != nil {
 			log.Warn().Err(err).Msg("shutdown")
 		}
 	}()
